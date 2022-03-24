@@ -1,3 +1,3 @@
-@tailwind components;
+@import '~antd/dist/antd.min.css';
 @tailwind utilities;
-@import '~antd/dist/antd.dark.min.css';
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');

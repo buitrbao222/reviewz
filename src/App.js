@@ -3,7 +3,7 @@ import AdminLayout from 'components/admin/layout';
 import MainLayout from 'components/main/layout';
 import RequireAdmin from 'components/routes/RequireAdmin';
 import RequireAuth from 'components/routes/RequireAuth';
-import Home from 'pages';
+import Home from 'pages/home';
 import Logout from 'pages/logout';
 import { Route, Routes } from 'react-router-dom';
 

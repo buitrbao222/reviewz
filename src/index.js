@@ -1,3 +1,4 @@
+import { ConfigProvider } from 'antd';
 import 'antd/dist/antd.dark.min.css';
 import 'css/index.css';
 import React from 'react';
@@ -7,7 +8,9 @@ import App from './App';
 
 ReactDOM.render(
   <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <App />
+    <ConfigProvider>
+      <App />
+    </ConfigProvider>
   </BrowserRouter>,
   document.getElementById('root')
 );

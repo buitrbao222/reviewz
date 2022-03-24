@@ -9,7 +9,7 @@ export default function RequireAdmin(props) {
 
   const location = useLocation();
 
-  if (!user || isAdmin(user)) {
+  if (!user || !isAdmin(user)) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
