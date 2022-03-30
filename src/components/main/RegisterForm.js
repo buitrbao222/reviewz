@@ -124,9 +124,6 @@ export default function RegisterForm(props) {
           },
           {
             validator(_, value) {
-              console.log('Password', form.getFieldValue('password'));
-              console.log('Confirm password', value);
-
               if (form.getFieldValue('password') === value) {
                 return Promise.resolve();
               }

@@ -23,8 +23,6 @@ export default function ChangeAvatar() {
 
     e.target.value = '';
 
-    console.log('Chosen file:', file);
-
     if (!file.type.startsWith('image')) {
       message.error('File đã chọn không phải là một file ảnh!');
       return;

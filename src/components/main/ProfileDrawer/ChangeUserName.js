@@ -6,7 +6,7 @@ import { usernameFormRules } from 'components/main/RegisterForm';
 
 const { useForm } = Form;
 
-export default function ChangeUserName(props) {
+export default function ChangeUsername(props) {
   const user = useUserStore(store => store.user);
 
   const setToken = useUserStore(store => store.setToken);
@@ -22,7 +22,6 @@ export default function ChangeUserName(props) {
   }
 
   function handleModalCancel() {
-    console.log('Modal close');
     setVisible(false);
     form.resetFields();
   }

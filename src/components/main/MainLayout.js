@@ -118,7 +118,7 @@ export default function MainLayout() {
                     <Image
                       id={user.img}
                       alt="avatar"
-                      className="object-cover w-full h-full"
+                      className="w-full h-full"
                     />
                   ) : (
                     <UserOutlined className="text-2xl leading-none" />

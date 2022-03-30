@@ -12,13 +12,8 @@ const useUserStore = create((set, get) => ({
   parseUserFromToken: () => {
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
 
-    if (token) {
-      set({
-        user: jwt_decode(token),
-      });
-    }
-
     set({
+      user: token ? jwt_decode(token) : undefined,
       initialized: true,
     });
   },
