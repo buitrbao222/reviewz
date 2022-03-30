@@ -1,5 +1,4 @@
 import { ConfigProvider } from 'antd';
-import 'antd/dist/antd.dark.min.css';
 import 'css/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';

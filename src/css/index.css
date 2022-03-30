@@ -1,3 +1,26 @@
-@import '~antd/dist/antd.min.css';
+/* @import '~antd/dist/antd.min.css'; */
+@import 'antd/dist/antd.variable.min.css';
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+
+.ant-modal-body {
+  padding: 16px;
+}
+
+.ant-modal-header {
+  padding: 16px;
+}
+
+.login-register-modal .ant-modal-body {
+  padding-top: 4px;
+}
+
+.login-register-modal .ant-modal-close-x {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.ant-form-item:last-child {
+  margin-bottom: 0;
+}

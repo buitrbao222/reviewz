@@ -4,7 +4,7 @@ import useStore from 'store/store';
 export default function RequireAuth(props) {
   const { children } = props;
 
-  const user = useStore(state => state.user);
+  const user = useStore(store => store.user);
 
   const location = useLocation();
 

@@ -5,7 +5,7 @@ import isAdmin from 'utils/isAdmin';
 export default function RequireAdmin(props) {
   const { children } = props;
 
-  const user = useStore(state => state.user);
+  const user = useStore(store => store.user);
 
   const location = useLocation();
 
