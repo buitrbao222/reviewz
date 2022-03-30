@@ -1,16 +1,75 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
+import axios from 'axios';
+import { useState } from 'react';
+import useUserStore from 'store/userStore';
 
 const { useForm } = Form;
+
+export const usernameFormRules = [
+  {
+    pattern: /^\D.*$/,
+    message: 'Tên đăng nhập không được bắt đầu bằng số',
+  },
+  {
+    pattern: /^[A-Za-z0-9]+$/,
+    message: 'Tên đăng nhập chỉ được chứa chữ cái và chữ số',
+  },
+  {
+    min: 5,
+    message: 'Tên đăng nhập tối thiểu 5 kí tự',
+  },
+];
+
+export const passwordFormRules = [
+  {
+    pattern: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)+$/,
+    message:
+      'Mật khẩu phải có ít nhất 1 chữ cái, 1 chữ số và không có kí tự đặc biệt',
+  },
+  { min: 6, message: 'Mật khẩu tối thiểu 6 kí tự' },
+];
 
 export default function RegisterForm(props) {
   const { setModalTab } = props;
 
+  const setUser = useUserStore(store => store.setUser);
+
   const [form] = useForm();
 
-  function handleFinish(values) {
-    const { username, password, confirmPassword } = values;
+  const [loading, setLoading] = useState(false);
 
-    // Call api
+  async function handleFinish(values) {
+    const { username, password } = values;
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post('/user/register', {
+        username,
+        password,
+      });
+
+      console.log('Register response', response);
+
+      message.success('Đăng ký thành công!');
+
+      setLoading(false);
+
+      setUser(response);
+    } catch (error) {
+      console.log('Register error', error);
+
+      setLoading(false);
+
+      if (error.message === 'User existed') {
+        form.setFields([
+          {
+            name: 'username',
+            errors: ['Tên đăng nhập này đã tồn tại'],
+          },
+        ]);
+      }
+    }
   }
 
   function handleLoginClick() {
@@ -18,15 +77,22 @@ export default function RegisterForm(props) {
   }
 
   return (
-    <Form layout="vertical" onFinish={handleFinish} requiredMark={false}>
+    <Form
+      layout="vertical"
+      onFinish={handleFinish}
+      requiredMark={false}
+      form={form}
+    >
       <Form.Item
         label="Tên đăng nhập"
         name="username"
+        validateFirst
         rules={[
           {
             required: true,
             message: 'Hãy điền tên đăng nhập',
           },
+          ...usernameFormRules,
         ]}
       >
         <Input />
@@ -40,6 +106,7 @@ export default function RegisterForm(props) {
             required: true,
             message: 'Hãy điền mật khẩu',
           },
+          ...passwordFormRules,
         ]}
       >
         <Input.Password />
@@ -57,6 +124,9 @@ export default function RegisterForm(props) {
           },
           {
             validator(_, value) {
+              console.log('Password', form.getFieldValue('password'));
+              console.log('Confirm password', value);
+
               if (form.getFieldValue('password') === value) {
                 return Promise.resolve();
               }
@@ -70,7 +140,7 @@ export default function RegisterForm(props) {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading}>
           Đăng ký
         </Button>
       </Form.Item>

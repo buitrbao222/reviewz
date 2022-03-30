@@ -11,7 +11,7 @@ import ProfileDrawer from 'components/main/ProfileDrawer';
 import RegisterForm from 'components/main/RegisterForm';
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import useStore from 'store/store';
+import useUserStore from 'store/userStore';
 
 const { Header, Content, Footer } = Layout;
 
@@ -24,9 +24,9 @@ export default function MainLayout() {
 
   const [modalTab, setModalTab] = useState();
 
-  const user = useStore(store => store.user);
+  const user = useUserStore(store => store.user);
 
-  const logout = useStore(store => store.logout);
+  const logout = useUserStore(store => store.logout);
 
   const [profileDrawerVisible, setProfileDrawerVisible] = useState(false);
 
@@ -57,7 +57,7 @@ export default function MainLayout() {
         break;
 
       case 'admin':
-        // Go to admin page
+        navigate('/admin');
         break;
 
       case 'logout':

@@ -1,7 +1,7 @@
 import { Button, Form, Input, message } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
-import useStore from 'store/store';
+import useUserStore from 'store/userStore';
 
 const { useForm } = Form;
 
@@ -12,7 +12,7 @@ export default function LoginForm(props) {
 
   const [form] = useForm();
 
-  const setToken = useStore(store => store.setToken);
+  const setToken = useUserStore(store => store.setToken);
 
   async function handleFinish(values) {
     const { username, password } = values;
@@ -25,9 +25,9 @@ export default function LoginForm(props) {
         password,
       });
 
-      message.success('Đăng nhập thành công');
-
       console.log('Login response', token);
+
+      message.success('Đăng nhập thành công!');
 
       setLoading(false);
 
@@ -35,6 +35,8 @@ export default function LoginForm(props) {
 
       setToken(token);
     } catch (error) {
+      console.log('Login error', error);
+
       setLoading(false);
 
       switch (error.message) {

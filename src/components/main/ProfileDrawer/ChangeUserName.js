@@ -1,14 +1,15 @@
 import { Button, Form, Input, Modal } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
-import useStore from 'store/store';
+import useUserStore from 'store/userStore';
+import { usernameFormRules } from 'components/main/RegisterForm';
 
 const { useForm } = Form;
 
 export default function ChangeUserName(props) {
-  const user = useStore(store => store.user);
+  const user = useUserStore(store => store.user);
 
-  const setToken = useStore(store => store.setToken);
+  const setToken = useUserStore(store => store.setToken);
 
   const [loading, setLoading] = useState(false);
 
@@ -83,18 +84,6 @@ export default function ChangeUserName(props) {
                 message: 'Hãy điền tên đăng nhập mới',
               },
               {
-                pattern: /^\D.+$/,
-                message: 'Tên đăng nhập không được bắt đầu bằng số',
-              },
-              {
-                pattern: /^[A-Za-z0-9]+$/,
-                message: 'Tên đăng nhập chỉ được chứa chữ cái và chữ số',
-              },
-              {
-                min: 5,
-                message: 'Tên đăng nhập tối thiểu 5 kí tự',
-              },
-              {
                 validator: (_, value) =>
                   value !== user.name
                     ? Promise.resolve()
@@ -102,6 +91,7 @@ export default function ChangeUserName(props) {
                         'Tên đăng nhập mới phải khác tên đăng nhập cũ'
                       ),
               },
+              ...usernameFormRules,
             ]}
           >
             <Input />

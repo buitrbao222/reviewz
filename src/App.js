@@ -2,24 +2,28 @@ import Dashboard from 'components/admin/dashboard';
 import AdminLayout from 'components/admin/layout';
 import MainLayout from 'components/main/MainLayout';
 import RequireAdmin from 'components/routes/RequireAdmin';
-import RequireAuth from 'components/routes/RequireAuth';
 import Home from 'pages/home';
-import Logout from 'pages/logout';
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import useUserStore from 'store/userStore';
 
 function App() {
+  const initialized = useUserStore(store => store.initialized);
+
+  const parseUserFromToken = useUserStore(store => store.parseUserFromToken);
+
+  useEffect(() => {
+    parseUserFromToken();
+  }, []);
+
+  if (!initialized) {
+    return null;
+  }
+
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route
-          path="logout"
-          element={
-            <RequireAuth>
-              <Logout />
-            </RequireAuth>
-          }
-        />
       </Route>
 
       <Route
