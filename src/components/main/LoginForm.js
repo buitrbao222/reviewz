@@ -1,12 +1,62 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
+import axios from 'axios';
+import { useState } from 'react';
+import useStore from 'store/store';
+
+const { useForm } = Form;
 
 export default function LoginForm(props) {
   const { setModalTab } = props;
 
-  function handleFinish(values) {
+  const [loading, setLoading] = useState(false);
+
+  const [form] = useForm();
+
+  const setToken = useStore(store => store.setToken);
+
+  async function handleFinish(values) {
     const { username, password } = values;
 
-    // Call api
+    setLoading(true);
+
+    try {
+      const token = await axios.post('/user/login', {
+        username,
+        password,
+      });
+
+      message.success('Đăng nhập thành công');
+
+      console.log('Login response', token);
+
+      setLoading(false);
+
+      setModalTab(undefined);
+
+      setToken(token);
+    } catch (error) {
+      setLoading(false);
+
+      switch (error.message) {
+        case 'User not found':
+          form.setFields([
+            {
+              name: 'username',
+              errors: ['Tài khoản này không tồn tại'],
+            },
+          ]);
+          break;
+        case 'Invalid field: password':
+          form.setFields([
+            {
+              name: 'password',
+              errors: ['Sai mật khẩu'],
+            },
+          ]);
+          break;
+        default:
+      }
+    }
   }
 
   function handleRegisterClick() {
@@ -14,7 +64,12 @@ export default function LoginForm(props) {
   }
 
   return (
-    <Form layout="vertical" onFinish={handleFinish} requiredMark={false}>
+    <Form
+      layout="vertical"
+      onFinish={handleFinish}
+      requiredMark={false}
+      form={form}
+    >
       <Form.Item
         label="Tên đăng nhập"
         name="username"
@@ -42,7 +97,7 @@ export default function LoginForm(props) {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading}>
           Đăng nhập
         </Button>
       </Form.Item>

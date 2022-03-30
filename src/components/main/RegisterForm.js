@@ -1,7 +1,11 @@
 import { Button, Form, Input } from 'antd';
 
+const { useForm } = Form;
+
 export default function RegisterForm(props) {
   const { setModalTab } = props;
+
+  const [form] = useForm();
 
   function handleFinish(values) {
     const { username, password, confirmPassword } = values;
@@ -51,15 +55,15 @@ export default function RegisterForm(props) {
             required: true,
             message: 'Hãy điền lại mật khẩu',
           },
-          ({ getFieldValue }) => ({
+          {
             validator(_, value) {
-              if (getFieldValue('password') === value) {
+              if (form.getFieldValue('password') === value) {
                 return Promise.resolve();
               }
 
               return Promise.reject('Xác nhận mật khẩu không đúng');
             },
-          }),
+          },
         ]}
       >
         <Input.Password />

@@ -1,6 +1,6 @@
 import Dashboard from 'components/admin/dashboard';
 import AdminLayout from 'components/admin/layout';
-import MainLayout from 'components/main/Layout';
+import MainLayout from 'components/main/MainLayout';
 import RequireAdmin from 'components/routes/RequireAdmin';
 import RequireAuth from 'components/routes/RequireAuth';
 import Home from 'pages/home';
