@@ -3,20 +3,21 @@ import AdminLayout from 'components/admin/layout';
 import MainLayout from 'components/main/MainLayout';
 import RequireAdmin from 'components/routes/RequireAdmin';
 import Home from 'pages/home';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import useUserStore from 'store/userStore';
 
 function App() {
-  const initialized = useUserStore(store => store.initialized);
+  const [loaded, setLoaded] = useState(false);
 
-  const parseUserFromToken = useUserStore(store => store.parseUserFromToken);
+  const getToken = useUserStore(store => store.getToken);
 
   useEffect(() => {
-    parseUserFromToken();
+    getToken();
+    setLoaded(true);
   }, []);
 
-  if (!initialized) {
+  if (!loaded) {
     return null;
   }
 

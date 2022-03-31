@@ -2,19 +2,16 @@ import { STORAGE_KEYS } from 'configs/constants';
 import create from 'zustand';
 import jwt_decode from 'jwt-decode';
 
-const useUserStore = create((set, get) => ({
+const useUserStore = create(set => ({
   user: undefined,
-
-  initialized: false,
 
   setUser: user => set({ user }),
 
-  parseUserFromToken: () => {
+  getToken: () => {
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
 
     set({
       user: token ? jwt_decode(token) : undefined,
-      initialized: true,
     });
   },
 
