@@ -1,12 +1,13 @@
 import { Spin } from 'antd';
 import axios from 'axios';
-import Dashboard from 'components/admin/dashboard';
-import AdminLayout from 'components/admin/layout';
+import AdminLayout from 'components/admin/AdminLayout';
 import MainLayout from 'components/main/MainLayout';
 import RequireAdmin from 'components/routes/RequireAdmin';
+import Dashboard from 'pages/admin/dashboard';
+import Users from 'pages/admin/users';
 import Home from 'pages/home';
 import { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import useGenreStore from 'store/genreStore';
 import useUserStore from 'store/userStore';
 
@@ -60,7 +61,10 @@ function App() {
         }
       >
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="user" element={<Users />} />
       </Route>
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

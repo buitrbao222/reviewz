@@ -1,24 +1,30 @@
 import {
+  HomeOutlined,
   InfoCircleOutlined,
   LogoutOutlined,
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { Button, Dropdown, Menu } from 'antd';
+import clsx from 'clsx';
 import Image from 'components/common/Image';
 import ProfileDrawer from 'components/common/ProfileDrawer';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'store/userStore';
 
 export default function User() {
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   const user = useUserStore(store => store.user);
 
   const logout = useUserStore(store => store.logout);
 
   const [profileDrawerVisible, setProfileDrawerVisible] = useState(false);
+
+  const inAdmin = location.pathname.startsWith('/admin');
 
   function handleMenuClick(e) {
     switch (e.key) {
@@ -32,6 +38,10 @@ export default function User() {
 
       case 'logout':
         logout();
+        break;
+
+      case 'home':
+        navigate('/');
         break;
 
       // no default
@@ -52,10 +62,17 @@ export default function User() {
               Thông tin cá nhân
             </Menu.Item>
 
-            <Menu.Item key="admin">
-              <SettingOutlined />
-              Quản lý
-            </Menu.Item>
+            {inAdmin ? (
+              <Menu.Item key="home">
+                <HomeOutlined />
+                Về trang chủ
+              </Menu.Item>
+            ) : (
+              <Menu.Item key="admin">
+                <SettingOutlined />
+                Quản lý
+              </Menu.Item>
+            )}
 
             <Menu.Item key="logout">
               <LogoutOutlined />
@@ -66,7 +83,10 @@ export default function User() {
       >
         <Button
           size="large"
-          className="flex items-center justify-center w-10 h-10 p-0"
+          className={clsx(
+            'flex items-center justify-center w-10 h-10 p-0',
+            inAdmin && 'in-admin'
+          )}
           ghost
         >
           {user.img ? (

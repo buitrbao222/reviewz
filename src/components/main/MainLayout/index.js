@@ -1,26 +1,21 @@
 import { Button, Layout, Modal, Tabs } from 'antd';
+import ReviewzFooter from 'components/common/ReviewzFooter';
 import User from 'components/common/User';
 import LoginForm from 'components/main/MainLayout/LoginForm';
 import RegisterForm from 'components/main/MainLayout/RegisterForm';
 import SearchBar from 'components/main/SearchBar';
 import { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import useUserStore from 'store/userStore';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 const { TabPane } = Tabs;
 
 export default function MainLayout() {
-  const navigate = useNavigate();
-
   const [modalTab, setModalTab] = useState();
 
   const user = useUserStore(store => store.user);
-
-  function handleLogoClick() {
-    navigate('/');
-  }
 
   function handleLoginClick() {
     setModalTab('login');
@@ -37,13 +32,12 @@ export default function MainLayout() {
   return (
     <Layout>
       <Header className="flex items-center">
-        <Button
-          onClick={handleLogoClick}
-          className="flex items-center h-full text-3xl text-white cursor-pointer font-courgette"
-          type="link"
+        <Link
+          className="flex items-center h-full text-3xl text-white font-courgette"
+          to="/"
         >
           Reviewz
-        </Button>
+        </Link>
 
         <div className="flex items-center justify-end flex-1 gap-8">
           <SearchBar />
@@ -81,7 +75,7 @@ export default function MainLayout() {
         <Outlet />
       </Content>
 
-      <Footer className="text-center">Reviewz ©2022</Footer>
+      <ReviewzFooter />
     </Layout>
   );
 }

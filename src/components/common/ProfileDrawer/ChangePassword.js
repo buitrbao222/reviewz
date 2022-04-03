@@ -52,7 +52,7 @@ export default function ChangePassword() {
 
       setLoading(false);
 
-      if (error.mesage === 'Invalid field: password') {
+      if (error.message === 'Invalid field: password') {
         form.setFields([
           {
             name: 'oldPassword',

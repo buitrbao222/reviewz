@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
-@tailwind utilities;
 @import 'antd/dist/antd.variable.min.css';
 @import 'swiper/css';
 @import 'swiper/css/navigation';
 @import './movie-card.css';
 @import './movie-slider.css';
+@import './admin-menu.css';
+@tailwind utilities;
 
 :root {
   --tw-scale-x: 1;
@@ -36,6 +37,10 @@
   height: 100%;
 }
 
+#root > .ant-layout {
+  min-height: 100vh;
+}
+
 .ant-modal-body {
   padding: theme('spacing.4');
 }
@@ -62,11 +67,6 @@
   margin-right: theme('spacing.2');
 }
 
-.ant-layout-footer {
-  background: theme('colors.dark');
-  color: theme('colors.white');
-}
-
 .anticon.svg-full > svg {
   width: 100%;
   height: 100%;
@@ -81,9 +81,10 @@
   min-width: 0;
 }
 
-.dot {
-  width: theme('width.1');
-  height: theme('width.1');
-  background: currentColor;
-  border-radius: 9999px;
+.ant-btn.ant-btn-background-ghost.in-admin {
+  border-color: theme('colors.dark');
+}
+
+.ant-btn.ant-btn-background-ghost.in-admin:hover {
+  border-color: theme('colors.primary-hover');
 }

@@ -10,7 +10,7 @@
 }
 
 .movie-card {
-  transition: all 300ms ease-in-out;
+  transition: all 200ms ease-in-out;
 }
 
 .movie-card:hover {
@@ -24,4 +24,11 @@
   width: 100%;
   aspect-ratio: 3 / 4;
   z-index: 2;
+}
+
+.dot {
+  width: theme('width.1');
+  height: theme('width.1');
+  background: currentColor;
+  border-radius: 9999px;
 }
