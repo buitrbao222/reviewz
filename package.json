@@ -1,6 +1,7 @@
 {
   "name": "reviewz-frontend",
   "version": "0.1.0",
+  "homepage": "https://buitrbao222.github.io/reviewz",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -22,6 +23,8 @@
     "zustand": "^3.7.1"
   },
   "scripts": {
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
