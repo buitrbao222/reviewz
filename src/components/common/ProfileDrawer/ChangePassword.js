@@ -1,6 +1,6 @@
 import { Button, Form, Input, Modal } from 'antd';
 import axios from 'axios';
-import { passwordFormRules } from 'components/main/RegisterForm';
+import { passwordFormRules } from 'components/main/MainLayout/RegisterForm';
 import React, { useState } from 'react';
 import useUserStore from 'store/userStore';
 

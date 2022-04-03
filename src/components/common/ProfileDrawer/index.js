@@ -1,9 +1,9 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Divider, Drawer } from 'antd';
 import Image from 'components/common/Image';
-import ChangeAvatar from 'components/main/ProfileDrawer/ChangeAvatar';
-import ChangePassword from 'components/main/ProfileDrawer/ChangePassword';
-import ChangeUsername from 'components/main/ProfileDrawer/ChangeUsername';
+import ChangeAvatar from 'components/common/ProfileDrawer/ChangeAvatar';
+import ChangePassword from 'components/common/ProfileDrawer/ChangePassword';
+import ChangeUsername from 'components/common/ProfileDrawer/ChangeUsername';
 import useUserStore from 'store/userStore';
 
 export default function ProfileDrawer(props) {

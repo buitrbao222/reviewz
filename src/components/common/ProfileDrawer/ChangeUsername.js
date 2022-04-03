@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
 import useUserStore from 'store/userStore';
-import { usernameFormRules } from 'components/main/RegisterForm';
+import { usernameFormRules } from 'components/main/MainLayout/RegisterForm';
 
 const { useForm } = Form;
 

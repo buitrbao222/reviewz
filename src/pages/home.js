@@ -1,4 +1,4 @@
-import MovieSlider from 'components/main/MovieCarousel';
+import MovieSlider from 'components/main/MovieSlider';
 
 export default function Home() {
   return (

@@ -40,7 +40,7 @@ export default function MovieSlider(props) {
     }
 
     loadMovies();
-  }, [params]);
+  }, []);
 
   return (
     <div className={className}>
