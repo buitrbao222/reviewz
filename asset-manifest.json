@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/reviewz/static/css/main.b4140f62.css",
+    "main.js": "/reviewz/static/js/main.cf4c76db.js",
+    "index.html": "/reviewz/index.html",
+    "main.b4140f62.css.map": "/reviewz/static/css/main.b4140f62.css.map",
+    "main.cf4c76db.js.map": "/reviewz/static/js/main.cf4c76db.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b4140f62.css",
+    "static/js/main.cf4c76db.js"
+  ]
+}
