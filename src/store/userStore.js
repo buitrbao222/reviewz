@@ -1,6 +1,6 @@
 import { STORAGE_KEYS } from 'configs/constants';
-import create from 'zustand';
 import jwt_decode from 'jwt-decode';
+import create from 'zustand';
 
 const useUserStore = create(set => ({
   user: undefined,
