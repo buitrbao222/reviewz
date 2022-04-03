@@ -19,12 +19,6 @@ export default function Users() {
       {
         title: 'Tên đăng nhập',
         dataIndex: 'username',
-        filters: [
-          {
-            text: 'test',
-            value: 'test',
-          },
-        ],
         filterSearch: true,
         filterMode: 'menu',
         onFilter: (value, record) => record.username.includes(value),
