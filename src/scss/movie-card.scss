@@ -1,20 +1,25 @@
+:root {
+  --movie-card-height: 421.328125px;
+  --movie-card-hover-translate-y: calc(theme('spacing.1') * -1);
+}
+
 .movie-card-skeleton {
   width: theme('width.64');
   height: var(--movie-card-height);
   border-radius: theme('borderRadius.lg');
-}
 
-.movie-card-skeleton .ant-skeleton-input {
-  width: 100%;
-  height: 100%;
+  .ant-skeleton-input {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .movie-card {
   transition: all 200ms ease-in-out;
-}
 
-.movie-card:hover {
-  transform: translateY(var(--movie-card-hover-translate-y));
+  &:hover {
+    transform: translateY(var(--movie-card-hover-translate-y));
+  }
 }
 
 .movie-card-gradient {

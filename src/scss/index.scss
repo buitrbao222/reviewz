@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
-@import 'antd/dist/antd.variable.min.css';
-@import 'swiper/css';
-@import 'swiper/css/navigation';
-@import './movie-card.css';
-@import './movie-slider.css';
-@import './admin-menu.css';
+@use '../../node_modules/antd/dist/antd.variable.min.css';
+@use 'swiper/scss';
+@use 'swiper/scss/navigation';
+@use './movie-card.scss';
+@use './movie-slider.scss';
+@use './admin-menu.scss';
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
 
 :root {
   --tw-scale-x: 1;
@@ -25,9 +25,6 @@
   --tw-saturate: ;
   --tw-sepia: ;
   --tw-drop-shadow: ;
-
-  --movie-card-height: 421.328125px;
-  --movie-card-hover-translate-y: calc(theme('spacing.1') * -1);
 
   --ant-layout-background: #f0f2f5;
   --main-content-padding-x: 50px;
@@ -49,14 +46,16 @@
   padding: theme('spacing.4');
 }
 
-.login-register-modal .ant-modal-body {
-  padding-top: theme('spacing.1');
-}
+.login-register-modal {
+  .ant-modal-body {
+    padding-top: theme('spacing.1');
+  }
 
-.login-register-modal .ant-modal-close-x {
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
+  .ant-modal-close-x {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+  }
 }
 
 .ant-form-item:last-child {
@@ -83,8 +82,8 @@
 
 .ant-btn.ant-btn-background-ghost.in-admin {
   border-color: theme('colors.dark');
-}
 
-.ant-btn.ant-btn-background-ghost.in-admin:hover {
-  border-color: theme('colors.primary-hover');
+  &:hover {
+    border-color: theme('colors.primary-hover');
+  }
 }

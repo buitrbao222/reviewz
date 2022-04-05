@@ -49,7 +49,7 @@ export default function MovieCard(props) {
 
       <div
         className={clsx(
-          'transition-opacity duration-300 ease-in-out bg-dark',
+          'transition-opacity duration-500 ease-in-out bg-dark',
           !imgLoaded && 'opacity-0'
         )}
       >
