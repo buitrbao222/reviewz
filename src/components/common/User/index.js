@@ -3,11 +3,9 @@ import {
   InfoCircleOutlined,
   LogoutOutlined,
   SettingOutlined,
-  UserOutlined,
 } from '@ant-design/icons';
-import { Button, Dropdown, Menu } from 'antd';
-import clsx from 'clsx';
-import Image from 'components/common/Image';
+import { Dropdown, Menu } from 'antd';
+import Avatar from 'components/common/Avatar';
 import ProfileDrawer from 'components/common/ProfileDrawer';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -81,20 +79,7 @@ export default function User() {
           </Menu>
         }
       >
-        <Button
-          size="large"
-          className={clsx(
-            'flex items-center justify-center w-10 h-10 p-0',
-            inAdmin && 'in-admin'
-          )}
-          ghost
-        >
-          {user.img ? (
-            <Image id={user.img} alt="avatar" className="w-full h-full" />
-          ) : (
-            <UserOutlined className="text-2xl leading-none" />
-          )}
-        </Button>
+        <Avatar imgId={user?.img} className={inAdmin && 'in-admin'} />
       </Dropdown>
 
       <ProfileDrawer

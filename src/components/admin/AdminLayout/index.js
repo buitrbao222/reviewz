@@ -37,7 +37,7 @@ export default function AdminLayout() {
           <User />
         </Header>
 
-        <Content className="m-4">
+        <Content className="flex flex-col m-4">
           <Outlet />
         </Content>
 

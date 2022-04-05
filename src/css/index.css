@@ -1,11 +1,11 @@
-@use '../../node_modules/antd/dist/antd.variable.min.css';
-@use 'swiper/scss';
-@use 'swiper/scss/navigation';
-@use './movie-card.scss';
-@use './movie-slider.scss';
-@use './admin-menu.scss';
-@tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+@import '../../node_modules/antd/dist/antd.variable.min.css';
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import './movie-card.css';
+@import './movie-slider.css';
+@import './admin-menu.css';
+@tailwind utilities;
 
 :root {
   --tw-scale-x: 1;

@@ -3,9 +3,10 @@ import axios from 'axios';
 import AdminLayout from 'components/admin/AdminLayout';
 import MainLayout from 'components/main/MainLayout';
 import RequireAdmin from 'components/routes/RequireAdmin';
-import Dashboard from 'pages/admin/dashboard';
-import Users from 'pages/admin/users';
-import Home from 'pages/home';
+import DashboardPage from 'pages/admin/dashboard';
+import UsersPage from 'pages/admin/users';
+import HomePage from 'pages';
+import MovieDetailsPage from 'pages/movie';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import useGenreStore from 'store/genreStore';
@@ -40,7 +41,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center w-full h-full">
+      <div className="flex items-center justify-center w-full h-full bg-ant-layout">
         <Spin size="large" className="scale-[3]" />
       </div>
     );
@@ -49,7 +50,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />} />
+        <Route index element={<HomePage />} />
+
+        <Route path="movie/:id" element={<MovieDetailsPage />} />
       </Route>
 
       <Route
@@ -60,8 +63,8 @@ function App() {
           </RequireAdmin>
         }
       >
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="user" element={<Users />} />
+        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="user" element={<UsersPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

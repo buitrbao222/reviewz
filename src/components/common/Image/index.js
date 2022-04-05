@@ -28,7 +28,7 @@ export default function Image(props) {
   }
 
   return (
-    <div className={clsx('relative', className)}>
+    <div className={clsx('relative bg-dark', className)}>
       <img
         src={error ? fallbackImg : imgSrc}
         onError={handleError}

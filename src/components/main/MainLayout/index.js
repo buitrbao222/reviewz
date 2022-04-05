@@ -71,7 +71,7 @@ export default function MainLayout() {
         </div>
       </Header>
 
-      <Content className="px-[50px]">
+      <Content className="px-[50px] flex flex-col">
         <Outlet />
       </Content>
 

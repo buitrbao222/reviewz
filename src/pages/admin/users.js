@@ -4,10 +4,10 @@ import TableLayout from 'components/admin/TableLayout';
 import { USER_ROLES } from 'configs/constants';
 import { useEffect, useMemo, useState } from 'react';
 import useUserStore from 'store/userStore';
-import errorNotification from 'utils/errorNotification';
+import notifyError from 'utils/notifyError';
 import isAdmin from 'utils/isAdmin';
 
-export default function Users() {
+export default function UsersPage() {
   const user = useUserStore(store => store.user);
 
   const [dataSource, setDataSource] = useState([]);
@@ -72,7 +72,7 @@ export default function Users() {
       setDataSource(response);
     } catch (error) {
       console.log('Get users error', error);
-      errorNotification(error);
+      notifyError(error);
     } finally {
       setLoading(false);
     }
@@ -92,7 +92,7 @@ export default function Users() {
     } catch (error) {
       console.log('Change role error', error);
       setLoading(false);
-      errorNotification(error);
+      notifyError(error);
     }
   }
 

@@ -1,6 +1,6 @@
 import MovieSlider from 'components/main/MovieSlider';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="py-10">
       <MovieSlider label="Mới cập nhật" />

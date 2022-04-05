@@ -28,6 +28,7 @@ module.exports = {
         'warning-active': '#d48806',
         'warning-outline': 'rgba(250,173,20,0.2)',
         info: '#1890ff',
+        'ant-layout': '#f0f2f5',
       },
       fontFamily: {
         courgette: 'Courgette',

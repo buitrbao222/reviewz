@@ -1,16 +1,15 @@
-import { ConfigProvider } from 'antd';
-import 'scss/index.scss';
-import React from 'react';
+import 'configs/axios';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import 'css/index.css';
 import App from './App';
-import 'configs/axios';
+
+const publicUrl =
+  process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : undefined;
 
 ReactDOM.render(
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <ConfigProvider>
-      <App />
-    </ConfigProvider>
+  <BrowserRouter basename={publicUrl}>
+    <App />
   </BrowserRouter>,
   document.getElementById('root')
 );
