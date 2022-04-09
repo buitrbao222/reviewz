@@ -1,5 +1,6 @@
 import { Button, Form, Input, Rate } from 'antd';
 import useUserStore from 'store/userStore';
+import { FaRegStar, FaStar } from 'react-icons/fa';
 
 const { useForm } = Form;
 
@@ -34,8 +35,14 @@ export default function MyReview() {
                 message: 'Hãy chấm điểm',
               },
             ]}
+            className="mb-2"
           >
-            <Rate count={10} />
+            <Rate
+              count={10}
+              character={({ index, value }) =>
+                index < value ? <FaStar /> : <FaRegStar />
+              }
+            />
           </Form.Item>
 
           <Form.Item

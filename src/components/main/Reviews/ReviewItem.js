@@ -1,7 +1,8 @@
+import { Rate } from 'antd';
 import Avatar from 'components/common/Avatar';
 import moment from 'moment';
 import { useMemo } from 'react';
-import { FaStar, FaRegStar } from 'react-icons/fa';
+import { FaRegStar, FaStar } from 'react-icons/fa';
 
 export default function ReviewItem(props) {
   const { review } = props;
@@ -25,9 +26,14 @@ export default function ReviewItem(props) {
         <div className="mt-4 text-sm leading-none opacity-80">{dateString}</div>
 
         <div className="flex gap-2 mt-4 text-xl leading-none text-primary">
-          {[...Array(10)].map((_, index) =>
-            index < star ? <FaStar /> : <FaRegStar />
-          )}
+          <Rate
+            value={star}
+            count={10}
+            character={({ index, value }) =>
+              index < value ? <FaStar /> : <FaRegStar />
+            }
+            disabled
+          />
         </div>
 
         <div className="mt-2 text-base whitespace-pre-wrap">{content}</div>

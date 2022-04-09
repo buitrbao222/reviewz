@@ -87,3 +87,11 @@
     border-color: theme('colors.primary-hover');
   }
 }
+
+.ant-rate {
+  color: theme('colors.primary');
+}
+
+.ant-rate-star-first, .ant-rate-star-second {
+  color: theme('colors.primary');
+}
