@@ -23,8 +23,6 @@ export default function MovieDetails(props) {
       <div>
         <h1 className="text-4xl text-dark">{details?.nameEn}</h1>
 
-        <div className="flex-1 text-sm">{details?.summary}</div>
-
         <Divider />
 
         <div className="flex flex-col gap-2">
@@ -68,6 +66,10 @@ export default function MovieDetails(props) {
             <DetailLine title="Điểm trung bình">{details?.starAvg}</DetailLine>
           )}
         </div>
+
+        <Divider />
+
+        <div className="flex-1 text-sm">{details?.summary}</div>
       </div>
     </div>
   );

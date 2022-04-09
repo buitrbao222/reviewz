@@ -1,4 +1,4 @@
-import ReviewItem from 'components/main/MovieDetails/ReviewItem';
+import ReviewItem from 'components/main/Reviews/ReviewItem';
 
 export default function Reviews(props) {
   const { reviews } = props;

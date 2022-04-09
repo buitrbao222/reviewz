@@ -1,7 +1,8 @@
 import { Divider, Spin } from 'antd';
 import axios from 'axios';
 import MovieDetails from 'components/main/MovieDetails';
-import Reviews from 'components/main/MovieDetails/Reviews';
+import MyReview from 'components/main/MyReview';
+import Reviews from 'components/main/Reviews';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import notifyError from 'utils/notifyError';
@@ -61,8 +62,12 @@ export default function MovieDetailsPage() {
   }
 
   return (
-    <div className="flex flex-col flex-1 pt-[50px] text-dark">
+    <div className="flex flex-col flex-1 py-[50px] text-dark">
       <MovieDetails details={details} />
+
+      <Divider />
+
+      <MyReview />
 
       <Divider />
 
