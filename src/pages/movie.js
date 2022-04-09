@@ -5,16 +5,21 @@ import MyReview from 'components/main/MyReview';
 import Reviews from 'components/main/Reviews';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import useUserStore from 'store/userStore';
 import notifyError from 'utils/notifyError';
 
 export default function MovieDetailsPage() {
   const { id } = useParams();
+
+  const user = useUserStore(store => store.user);
 
   const [loading, setLoading] = useState(2);
 
   const [details, setDetails] = useState();
 
   const [reviews, setReviews] = useState();
+
+  const [myReview, setMyReview] = useState();
 
   useEffect(() => {
     loadDetails();
@@ -26,6 +31,21 @@ export default function MovieDetailsPage() {
       const response = await axios.get(`/movie/detail/${id}`);
 
       console.log('Get movie details response', response);
+
+      let otherReviews = [];
+      let myReview;
+
+      response.reviews.forEach(review => {
+        if (review.idUser === user.id) {
+          myReview = review;
+        } else {
+          otherReviews.push(review);
+        }
+      });
+
+      setReviews(otherReviews);
+
+      setMyReview(myReview);
 
       setDetails(response);
     } catch (error) {
@@ -67,7 +87,11 @@ export default function MovieDetailsPage() {
 
       <Divider />
 
-      <MyReview />
+      <MyReview
+        myReview={myReview}
+        movieId={details.id}
+        refresh={loadReviews}
+      />
 
       <Divider />
 

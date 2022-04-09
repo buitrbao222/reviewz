@@ -5,13 +5,17 @@ export default function Reviews(props) {
 
   return (
     <div>
-      <h2>Đánh giá</h2>
+      <h2>Đánh giá khác</h2>
 
-      <div className="flex flex-col gap-5">
-        {reviews.map(review => (
-          <ReviewItem key={review.id} review={review} />
-        ))}
-      </div>
+      {reviews.length === 0 ? (
+        <div>Không có đánh giá nào</div>
+      ) : (
+        <div className="flex flex-col gap-5">
+          {reviews.map(review => (
+            <ReviewItem key={review.id} review={review} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
