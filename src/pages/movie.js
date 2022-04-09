@@ -17,13 +17,13 @@ export default function MovieDetailsPage() {
 
   const [details, setDetails] = useState();
 
-  const [reviews, setReviews] = useState();
+  const [otherReviews, setOtherReviews] = useState();
 
   const [myReview, setMyReview] = useState();
 
   useEffect(() => {
     loadDetails();
-    loadReviews();
+    loadOtherReviews();
   }, []);
 
   async function loadDetails() {
@@ -32,41 +32,37 @@ export default function MovieDetailsPage() {
 
       console.log('Get movie details response', response);
 
-      let otherReviews = [];
-      let myReview;
-
-      response.reviews.forEach(review => {
-        if (review.idUser === user.id) {
-          myReview = review;
-        } else {
-          otherReviews.push(review);
-        }
-      });
-
-      setReviews(otherReviews);
-
-      setMyReview(myReview);
-
       setDetails(response);
     } catch (error) {
       console.log('Get movie details error', error);
-
       notifyError(error);
     } finally {
       setLoading(x => x - 1);
     }
   }
 
-  async function loadReviews() {
+  async function loadOtherReviews() {
     try {
-      const response = await axios.get(`/review/movie/${id}`);
+      const reviews = await axios.get(`/review/movie/${id}`);
 
-      console.log('Get movie reviews response', response);
+      console.log('Get movie reviews response', reviews);
 
-      setReviews(response);
+      let otherReviews = [];
+      let myReview = undefined;
+
+      reviews.forEach(review => {
+        if (review.idUser === user?.id) {
+          myReview = review;
+          return;
+        }
+
+        otherReviews.push(review);
+      });
+
+      setOtherReviews(otherReviews);
+      setMyReview(myReview);
     } catch (error) {
       console.log('Get movie reviews error', error);
-
       notifyError(error);
     } finally {
       setLoading(x => x - 1);
@@ -90,12 +86,12 @@ export default function MovieDetailsPage() {
       <MyReview
         myReview={myReview}
         movieId={details.id}
-        refresh={loadReviews}
+        refresh={loadOtherReviews}
       />
 
       <Divider />
 
-      <Reviews reviews={reviews} />
+      <Reviews reviews={otherReviews} />
     </div>
   );
 }

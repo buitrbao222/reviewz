@@ -1,47 +1,27 @@
 import { Spin } from 'antd';
-import axios from 'axios';
 import AdminLayout from 'components/admin/AdminLayout';
 import MainLayout from 'components/main/MainLayout';
 import RequireAdmin from 'components/routes/RequireAdmin';
+import HomePage from 'pages';
 import DashboardPage from 'pages/admin/dashboard';
 import UsersPage from 'pages/admin/users';
-import HomePage from 'pages';
 import MovieDetailsPage from 'pages/movie';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import useGenreStore from 'store/genreStore';
 import useUserStore from 'store/userStore';
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const loadFromToken = useUserStore(store => store.loadFromToken);
 
-  const getToken = useUserStore(store => store.getToken);
-
-  const setGenres = useGenreStore(store => store.setGenres);
+  const loadingFromToken = useUserStore(store => store.loadingFromToken);
 
   useEffect(() => {
-    getToken();
-
-    async function loadGenres() {
-      try {
-        const response = await axios.get('category');
-
-        console.log('Get genres response', response);
-
-        setGenres(response);
-      } catch (error) {
-        console.log('Get genres error', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadGenres();
+    loadFromToken();
   }, []);
 
-  if (loading) {
+  if (loadingFromToken) {
     return (
-      <div className="flex items-center justify-center w-full h-full bg-ant-layout">
+      <div className="flex items-center justify-center flex-1 h-full">
         <Spin size="large" className="scale-[3]" />
       </div>
     );

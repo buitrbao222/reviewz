@@ -4,14 +4,15 @@ import create from 'zustand';
 
 const useUserStore = create(set => ({
   user: undefined,
+  loadingFromToken: true,
+  setUser: user => set({ user, loadingFromToken: false }),
 
-  setUser: user => set({ user }),
-
-  getToken: () => {
+  loadFromToken: () => {
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
 
     set({
       user: token ? jwt_decode(token) : undefined,
+      loadingFromToken: false,
     });
   },
 

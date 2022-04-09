@@ -1,4 +1,4 @@
-import { Button, Form, Input, Rate } from 'antd';
+import { Button, Form, Input, message, Rate } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
@@ -35,6 +35,8 @@ export default function MyReview(props) {
       });
 
       console.log('Post review response', response);
+
+      message.success('Bài đánh giá của bạn đang chờ được duyệt');
     } catch (error) {
       console.log('Post review error', error);
       notifyError(error);
@@ -69,7 +71,7 @@ export default function MyReview(props) {
 
   return (
     <div>
-      <h2>Đánh giá của bạn ({myReview ? 'Đã duyệt' : 'Chưa duyệt'})</h2>
+      <h2>Đánh giá của bạn {myReview && 'Đã duyệt'}</h2>
 
       <div className="flex flex-col">
         <Form
