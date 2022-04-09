@@ -18,7 +18,7 @@ export default function MovieDetails(props) {
 
   return (
     <div className="flex items-start gap-6">
-      <Image id={details?.img} className="w-80 aspect-[3/4] shrink-0" />
+      <Image id={details?.img} className="w-72 aspect-[2/3] shrink-0" />
 
       <div>
         <h1 className="text-4xl text-dark">{details?.nameEn}</h1>

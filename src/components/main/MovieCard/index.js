@@ -60,10 +60,7 @@ export default function MovieCard(props) {
           onError={handleError}
           onLoad={handleLoad}
           alt=""
-          className={clsx(
-            'relative w-full aspect-[3/4] object-cover',
-            imgError && 'invert'
-          )}
+          className={clsx('relative w-full object-cover', imgError && 'invert')}
         />
 
         <div className="flex flex-col gap-2 p-2.5">

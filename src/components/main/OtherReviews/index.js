@@ -1,6 +1,6 @@
-import ReviewItem from 'components/main/Reviews/ReviewItem';
+import ReviewItem from 'components/main/OtherReviews/ReviewItem';
 
-export default function Reviews(props) {
+export default function OtherReviews(props) {
   const { reviews } = props;
 
   return (

@@ -8,7 +8,7 @@ import notifyError from 'utils/notifyError';
 const { useForm } = Form;
 
 export default function MyReview(props) {
-  const { myReview, movieId, refresh } = props;
+  const { myReview, setMyReview, movieId } = props;
 
   const user = useUserStore(store => store.user);
 
@@ -37,12 +37,13 @@ export default function MyReview(props) {
       console.log('Post review response', response);
 
       message.success('Bài đánh giá của bạn đang chờ được duyệt');
+
+      setMyReview(response);
     } catch (error) {
       console.log('Post review error', error);
       notifyError(error);
     } finally {
       setLoading(false);
-      refresh();
     }
   }
 
@@ -56,12 +57,15 @@ export default function MyReview(props) {
       });
 
       console.log('Edit review response', response);
+
+      message.success('Bài đánh giá của bạn đang chờ được duyệt');
+
+      setMyReview(response);
     } catch (error) {
       console.log('Edit review error', error);
       notifyError(error);
     } finally {
       setLoading(false);
-      refresh();
     }
   }
 
@@ -71,7 +75,10 @@ export default function MyReview(props) {
 
   return (
     <div>
-      <h2>Đánh giá của bạn {myReview && 'Đã duyệt'}</h2>
+      <h2>
+        Đánh giá của bạn{' '}
+        {myReview && (myReview.verified ? '(Đã duyệt)' : '(Chưa duyệt)')}
+      </h2>
 
       <div className="flex flex-col">
         <Form

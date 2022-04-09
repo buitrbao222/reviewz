@@ -2,7 +2,7 @@ import { Divider, Spin } from 'antd';
 import axios from 'axios';
 import MovieDetails from 'components/main/MovieDetails';
 import MyReview from 'components/main/MyReview';
-import Reviews from 'components/main/Reviews';
+import OtherReviews from 'components/main/OtherReviews';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useUserStore from 'store/userStore';
@@ -85,13 +85,13 @@ export default function MovieDetailsPage() {
 
       <MyReview
         myReview={myReview}
+        setMyReview={setMyReview}
         movieId={details.id}
-        refresh={loadOtherReviews}
       />
 
       <Divider />
 
-      <Reviews reviews={otherReviews} />
+      <OtherReviews reviews={otherReviews} />
     </div>
   );
 }

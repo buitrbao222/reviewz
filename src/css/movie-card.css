@@ -1,11 +1,11 @@
 :root {
-  --movie-card-height: 421.328125px;
   --movie-card-hover-translate-y: calc(theme('spacing.1') * -1);
+  --movie-card-img-height: calc((theme('width.64') * 3 / 2) - 80px);
 }
 
 .movie-card-skeleton {
   width: theme('width.64');
-  height: var(--movie-card-height);
+  aspect-ratio: 2 / 3;
   border-radius: theme('borderRadius.lg');
 }
 
@@ -22,12 +22,16 @@
   transform: translateY(var(--movie-card-hover-translate-y));
 }
 
+.movie-card img {
+  height: var(--movie-card-img-height);
+}
+
 .movie-card-gradient {
   background: linear-gradient(0deg, theme('colors.dark') 0, transparent 30%);
   position: absolute;
   top: 0;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  height: var(--movie-card-img-height);
   z-index: 2;
 }
 
