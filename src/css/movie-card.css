@@ -1,6 +1,9 @@
 :root {
   --movie-card-hover-translate-y: calc(theme('spacing.1') * -1);
-  --movie-card-img-height: calc((theme('width.64') * 3 / 2) - 80px);
+  --movie-card-info-height: 80px;
+  --movie-card-img-height: calc(
+    (theme('width.64') * 3 / 2) - var(--movie-card-info-height)
+  );
 }
 
 .movie-card-skeleton {
