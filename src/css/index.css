@@ -92,6 +92,24 @@
   color: theme('colors.primary');
 }
 
-.ant-rate-star-first, .ant-rate-star-second {
+.ant-rate-star-first,
+.ant-rate-star-second {
   color: theme('colors.primary');
+}
+
+.default-avatar {
+  font-size: theme('fontSize.2xl');
+  line-height: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.ant-input-disabled.read-only {
+  color: rgba(0, 0, 0, 0.85);
+  background-color: #fff;
+  cursor: text;
 }

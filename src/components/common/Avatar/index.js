@@ -19,7 +19,7 @@ export default function Avatar(props) {
       {imgId ? (
         <Image id={imgId} alt="avatar" className="w-full h-full" />
       ) : (
-        <UserOutlined className="text-2xl leading-none" />
+        <UserOutlined className="default-avatar" />
       )}
     </Button>
   );

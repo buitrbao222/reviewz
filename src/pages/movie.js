@@ -56,7 +56,9 @@ export default function MovieDetailsPage() {
           return;
         }
 
-        otherReviews.push(review);
+        if (review.verified) {
+          otherReviews.push(review);
+        }
       });
 
       setOtherReviews(otherReviews);
