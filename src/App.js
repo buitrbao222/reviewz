@@ -4,6 +4,7 @@ import MainLayout from 'components/main/MainLayout';
 import RequireAdmin from 'components/routes/RequireAdmin';
 import HomePage from 'pages';
 import DashboardPage from 'pages/admin/dashboard';
+import GenresPage from 'pages/admin/genres';
 import UsersPage from 'pages/admin/users';
 import MovieDetailsPage from 'pages/movie';
 import { useEffect } from 'react';
@@ -45,6 +46,7 @@ function App() {
       >
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="user" element={<UsersPage />} />
+        <Route path="genre" element={<GenresPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

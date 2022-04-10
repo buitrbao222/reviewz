@@ -1,11 +1,12 @@
 import { Popconfirm, Switch, Tooltip } from 'antd';
 import axios from 'axios';
+import CreateUserModal from 'components/admin/CreateUserModal';
 import TableLayout from 'components/admin/TableLayout';
 import { USER_ROLES } from 'configs/constants';
 import { useEffect, useMemo, useState } from 'react';
 import useUserStore from 'store/userStore';
-import notifyError from 'utils/notifyError';
 import isAdmin from 'utils/isAdmin';
+import notifyError from 'utils/notifyError';
 
 export default function UsersPage() {
   const user = useUserStore(store => store.user);
@@ -14,14 +15,13 @@ export default function UsersPage() {
 
   const [loading, setLoading] = useState(false);
 
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+
   const columns = useMemo(
     () => [
       {
         title: 'Tên đăng nhập',
         dataIndex: 'username',
-        filterSearch: true,
-        filterMode: 'menu',
-        onFilter: (value, record) => record.username.includes(value),
       },
       {
         title: 'Quyền quản trị',
@@ -29,7 +29,7 @@ export default function UsersPage() {
         render: (roles, record, index) => {
           if (record.id === user.id) {
             return (
-              <Tooltip title="Bạn không thể tự chỉnh sửa quyền quản trị của chính mình">
+              <Tooltip title="Bạn không thể chỉnh sửa quyền quản trị của chính mình">
                 <Switch checked disabled />
               </Tooltip>
             );
@@ -44,7 +44,7 @@ export default function UsersPage() {
                   ? 'thu hồi quyền quản trị của tài khoản này?'
                   : 'cấp quyền quản trị cho tài khoản này?'
               }`}
-              onConfirm={() => handleRoleSwitchConfirm(roles, record, index)}
+              onConfirm={() => handleRoleSwitchConfirm(record)}
               okText="Có"
               cancelText="Không"
             >
@@ -58,10 +58,10 @@ export default function UsersPage() {
   );
 
   useEffect(() => {
-    loadData();
+    getUsers();
   }, []);
 
-  async function loadData() {
+  async function getUsers() {
     setLoading(true);
 
     try {
@@ -78,17 +78,17 @@ export default function UsersPage() {
     }
   }
 
-  async function handleRoleSwitchConfirm(roles, record, index) {
+  async function handleRoleSwitchConfirm(user) {
     setLoading(true);
 
     try {
-      const response = await axios.put(`/user/${record.id}`, {
-        role: isAdmin(record) ? USER_ROLES.USER : USER_ROLES.ADMIN,
+      const response = await axios.put(`/user/${user.id}`, {
+        role: isAdmin(user) ? USER_ROLES.USER : USER_ROLES.ADMIN,
       });
 
       console.log('Change role response', response);
 
-      loadData();
+      getUsers();
     } catch (error) {
       console.log('Change role error', error);
       setLoading(false);
@@ -96,17 +96,24 @@ export default function UsersPage() {
     }
   }
 
-  function handleAddClick() {}
+  function handleAddClick() {
+    setCreateModalVisible(true);
+  }
 
   return (
     <div>
       <TableLayout
         columns={columns}
         dataSource={dataSource}
-        onRefreshClick={loadData}
+        onRefreshClick={getUsers}
         onAddClick={handleAddClick}
         loading={loading}
-        getRowKey={x => x.id}
+      />
+
+      <CreateUserModal
+        visible={createModalVisible}
+        setVisible={setCreateModalVisible}
+        refetch={getUsers}
       />
     </div>
   );

@@ -46,8 +46,8 @@ export default function AdminSider(props) {
           <Link to="/admin/user">Người dùng</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/category" icon={<FaTag />}>
-          <Link to="/admin/category">Thể loại</Link>
+        <Menu.Item key="/admin/genre" icon={<FaTag />}>
+          <Link to="/admin/genre">Thể loại</Link>
         </Menu.Item>
 
         <Menu.Item key="/admin/movie" icon={<FaFilm />}>

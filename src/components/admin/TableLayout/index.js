@@ -1,3 +1,8 @@
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons';
 import { Button, Popconfirm, Table } from 'antd';
 import { useState } from 'react';
 
@@ -10,7 +15,8 @@ export default function TableLayout(props) {
     onDeleteConfirm,
     onEditClick,
     loading,
-    getRowKey,
+    getRowKey = row => row.id,
+    extraButtons = [],
   } = props;
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -33,9 +39,15 @@ export default function TableLayout(props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <Button onClick={onRefreshClick}>Tải lại</Button>
+        <Button icon={<ReloadOutlined />} onClick={onRefreshClick}>
+          Tải lại
+        </Button>
 
-        {onAddClick && <Button onClick={onAddClick}>Thêm</Button>}
+        {onAddClick && (
+          <Button icon={<PlusOutlined />} onClick={onAddClick}>
+            Thêm
+          </Button>
+        )}
 
         {onDeleteConfirm && (
           <Popconfirm
@@ -45,7 +57,9 @@ export default function TableLayout(props) {
             onConfirm={handleDeleteConfirm}
             disabled={deleteDisabled}
           >
-            <Button disabled={deleteDisabled}>Xóa</Button>
+            <Button icon={<DeleteOutlined />} disabled={deleteDisabled}>
+              Xóa
+            </Button>
           </Popconfirm>
         )}
 
@@ -54,6 +68,8 @@ export default function TableLayout(props) {
             Sửa
           </Button>
         )}
+
+        {extraButtons}
       </div>
 
       <Table
