@@ -3,8 +3,9 @@ import {
   PlusOutlined,
   ReloadOutlined,
 } from '@ant-design/icons';
-import { Button, Popconfirm, Table } from 'antd';
+import { Button, Radio, Table } from 'antd';
 import { useState } from 'react';
+import confirmDeleteModal from 'utils/confirmDeleteModal';
 
 export default function TableLayout(props) {
   const {
@@ -16,7 +17,7 @@ export default function TableLayout(props) {
     onEditClick,
     loading,
     getRowKey = row => row.id,
-    extraButtons = [],
+    selectable = true,
   } = props;
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -25,15 +26,32 @@ export default function TableLayout(props) {
 
   const deleteDisabled = selectedRowKeys.length === 0;
 
-  const editDisabled = selectedRowKeys.length !== 1;
+  const editDisabled = selectedRowKeys.length === 0;
 
-  function handleDeleteConfirm() {
-    onDeleteConfirm(selectedRowKeys, selectedRows);
+  function renderRadioCell(checked, record) {
+    return (
+      <Radio
+        checked={checked}
+        onClick={() => {
+          if (checked) {
+            setSelectedRows([]);
+            setSelectedRowKeys([]);
+          } else {
+            setSelectedRows([record]);
+            setSelectedRowKeys([getRowKey(record)]);
+          }
+        }}
+      />
+    );
   }
 
-  function handleSelectChange(selectedRowKeys, selectedRows) {
-    setSelectedRowKeys(selectedRowKeys);
-    setSelectedRows(selectedRows);
+  function handleDeleteClick() {
+    confirmDeleteModal({
+      title: 'Bạn có chắc là muốn xóa?',
+      onOk: async function () {
+        await onDeleteConfirm(selectedRowKeys, selectedRows);
+      },
+    });
   }
 
   return (
@@ -50,17 +68,13 @@ export default function TableLayout(props) {
         )}
 
         {onDeleteConfirm && (
-          <Popconfirm
-            title="Bạn có chắc là muốn xóa?"
-            okText="Có"
-            cancelText="Không"
-            onConfirm={handleDeleteConfirm}
+          <Button
+            icon={<DeleteOutlined />}
             disabled={deleteDisabled}
+            onClick={handleDeleteClick}
           >
-            <Button icon={<DeleteOutlined />} disabled={deleteDisabled}>
-              Xóa
-            </Button>
-          </Popconfirm>
+            Xóa
+          </Button>
         )}
 
         {onEditClick && (
@@ -68,8 +82,6 @@ export default function TableLayout(props) {
             Sửa
           </Button>
         )}
-
-        {extraButtons}
       </div>
 
       <Table
@@ -78,11 +90,15 @@ export default function TableLayout(props) {
         bordered
         columns={columns}
         dataSource={dataSource}
-        rowSelection={{
-          type: 'checkbox',
-          onChange: handleSelectChange,
-          selectedRowKeys,
-        }}
+        rowSelection={
+          selectable
+            ? {
+                type: 'radio',
+                selectedRowKeys,
+                renderCell: renderRadioCell,
+              }
+            : undefined
+        }
         pagination={false}
       />
     </div>

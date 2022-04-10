@@ -1,4 +1,5 @@
 import axios from 'axios';
+import CreateGenreModal from 'components/admin/CreateGenreModal';
 import TableLayout from 'components/admin/TableLayout';
 import { useEffect, useState } from 'react';
 import notifyError from 'utils/notifyError';
@@ -15,11 +16,15 @@ export default function GenresPage() {
 
   const [loading, setLoading] = useState(true);
 
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+
+  const [editModalVisible, setEditModalVisible] = useState(false);
+
   useEffect(() => {
-    loadGenres();
+    getGenres();
   }, []);
 
-  async function loadGenres() {
+  async function getGenres() {
     setLoading(true);
 
     try {
@@ -34,12 +39,53 @@ export default function GenresPage() {
     }
   }
 
+  function openCreateModal() {
+    setCreateModalVisible(true);
+  }
+
+  async function deleteGenre(genreId) {
+    setLoading(true);
+
+    try {
+      const response = await axios.delete(`/category/${genreId}`);
+
+      console.log('Delete genre response', response);
+
+      setLoading(false);
+
+      getGenres();
+    } catch (error) {
+      console.log('Delete genre error', error);
+
+      if (error.message === `category've been used`) {
+        notifyError('Không thể xóa vì thể loại này đang được sử dụng.');
+      } else {
+        notifyError(error);
+      }
+
+      setLoading(false);
+    }
+  }
+
+  function openEditModal() {}
+
   return (
-    <TableLayout
-      columns={columns}
-      dataSource={dataSource}
-      loading={loading}
-      onRefreshClick={loadGenres}
-    />
+    <div>
+      <TableLayout
+        columns={columns}
+        dataSource={dataSource}
+        loading={loading}
+        onRefreshClick={getGenres}
+        onAddClick={openCreateModal}
+        onDeleteConfirm={deleteGenre}
+        onEditClick={openEditModal}
+      />
+
+      <CreateGenreModal
+        visible={createModalVisible}
+        setVisible={setCreateModalVisible}
+        refetch={getGenres}
+      />
+    </div>
   );
 }

@@ -1,9 +1,9 @@
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Modal, Rate } from 'antd';
+import { Button, Form, Input, message, Rate } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import useUserStore from 'store/userStore';
+import confirmDeleteModal from 'utils/confirmDeleteModal';
 import notifyError from 'utils/notifyError';
 
 const { useForm } = Form;
@@ -104,16 +104,9 @@ export default function MyReview(props) {
   }
 
   function confirmDeleteReview() {
-    Modal.confirm({
+    confirmDeleteModal({
       title: 'Bạn có chắc là muốn xóa bài đánh giá này?',
-      icon: <QuestionCircleOutlined />,
       onOk: deleteReview,
-      okText: 'Có',
-      okType: 'primary',
-      okButtonProps: {
-        danger: true,
-      },
-      cancelText: 'Không',
     });
   }
 

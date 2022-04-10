@@ -108,6 +108,7 @@ export default function UsersPage() {
         onRefreshClick={getUsers}
         onAddClick={handleAddClick}
         loading={loading}
+        selectable={false}
       />
 
       <CreateUserModal

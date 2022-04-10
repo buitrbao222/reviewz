@@ -60,10 +60,12 @@ export default function CreateUserModal(props) {
   return (
     <Modal
       visible={visible}
-      title="Thêm thể loại"
+      title="Thêm người dùng"
       onOk={handleOk}
       onCancel={handleCancel}
       confirmLoading={loading}
+      okText="Lưu"
+      cancelText="Hủy"
     >
       <Form form={form} layout="vertical" requiredMark={false}>
         <Form.Item
