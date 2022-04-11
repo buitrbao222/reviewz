@@ -1,32 +1,40 @@
 import {
   DeleteOutlined,
+  EditOutlined,
   PlusOutlined,
   ReloadOutlined,
 } from '@ant-design/icons';
 import { Button, Radio, Table } from 'antd';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import confirmDeleteModal from 'utils/confirmDeleteModal';
 
 export default function TableLayout(props) {
   const {
     columns,
     dataSource,
-    onRefreshClick,
-    onAddClick,
-    onDeleteConfirm,
-    onEditClick,
+    onRefetch,
+    onCreate,
+    onDelete,
+    onEdit,
     loading,
-    getRowKey = row => row.id,
+    selectedRow,
+    setSelectedRow,
+    rowKey,
     selectable = true,
   } = props;
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const selectedRowKeys = useMemo(
+    () => (selectedRow ? [getRowKey(selectedRow)] : []),
+    [selectedRow]
+  );
 
-  const [selectedRows, setSelectedRows] = useState([]);
+  function getRowKey(row) {
+    if (typeof rowKey === 'string') {
+      return row[rowKey];
+    }
 
-  const deleteDisabled = selectedRowKeys.length === 0;
-
-  const editDisabled = selectedRowKeys.length === 0;
+    return rowKey(row);
+  }
 
   function renderRadioCell(checked, record) {
     return (
@@ -34,11 +42,9 @@ export default function TableLayout(props) {
         checked={checked}
         onClick={() => {
           if (checked) {
-            setSelectedRows([]);
-            setSelectedRowKeys([]);
+            setSelectedRow(undefined);
           } else {
-            setSelectedRows([record]);
-            setSelectedRowKeys([getRowKey(record)]);
+            setSelectedRow(record);
           }
         }}
       />
@@ -48,44 +54,46 @@ export default function TableLayout(props) {
   function handleDeleteClick() {
     confirmDeleteModal({
       title: 'Bạn có chắc là muốn xóa?',
-      onOk: async function () {
-        await onDeleteConfirm(selectedRowKeys, selectedRows);
-      },
+      onOk: onDelete,
     });
   }
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <Button icon={<ReloadOutlined />} onClick={onRefreshClick}>
+        <Button icon={<ReloadOutlined />} onClick={onRefetch}>
           Tải lại
         </Button>
 
-        {onAddClick && (
-          <Button icon={<PlusOutlined />} onClick={onAddClick}>
+        {onCreate && (
+          <Button icon={<PlusOutlined />} onClick={onCreate}>
             Thêm
           </Button>
         )}
 
-        {onDeleteConfirm && (
+        {onDelete && (
           <Button
             icon={<DeleteOutlined />}
-            disabled={deleteDisabled}
+            disabled={!selectedRow}
             onClick={handleDeleteClick}
           >
             Xóa
           </Button>
         )}
 
-        {onEditClick && (
-          <Button onClick={onEditClick} disabled={editDisabled}>
+        {onEdit && (
+          <Button
+            icon={<EditOutlined />}
+            onClick={onEdit}
+            disabled={!selectedRow}
+          >
             Sửa
           </Button>
         )}
       </div>
 
       <Table
-        rowKey={getRowKey}
+        rowKey={rowKey}
         loading={loading}
         bordered
         columns={columns}

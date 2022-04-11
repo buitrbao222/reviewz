@@ -2,6 +2,7 @@ import { Button, Form, Input, message } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
 import useUserStore from 'store/userStore';
+import notifyError from 'utils/notifyError';
 
 const { useForm } = Form;
 
@@ -49,16 +50,12 @@ export default function RegisterForm(props) {
         password,
       });
 
-      console.log('Register response', response);
-
       message.success('Đăng ký thành công!');
 
       setLoading(false);
 
       setUser(response);
     } catch (error) {
-      console.log('Register error', error);
-
       setLoading(false);
 
       if (error.message === 'User existed') {
@@ -68,6 +65,8 @@ export default function RegisterForm(props) {
             errors: ['Tên đăng nhập này đã tồn tại'],
           },
         ]);
+      } else {
+        notifyError(error);
       }
     }
   }

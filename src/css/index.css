@@ -59,12 +59,8 @@
   min-width: 0;
 }
 
-.ant-btn.ant-btn-background-ghost.in-admin {
+.ant-btn.ant-btn-background-ghost.in-admin:not(:hover) {
   border-color: theme('colors.dark');
-}
-
-.ant-btn.ant-btn-background-ghost.in-admin:hover {
-  border-color: theme('colors.primary-hover');
 }
 
 .ant-rate {
@@ -113,4 +109,8 @@
 
 .ant-menu.in-admin .ant-menu-item-icon {
   font-size: 20px;
+}
+
+.ant-btn-ghost.in-admin:not(:hover) {
+  border-color: theme('colors.dark');
 }

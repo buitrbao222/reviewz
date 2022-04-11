@@ -3,6 +3,7 @@ import axios from 'axios';
 import { passwordFormRules } from 'components/main/MainLayout/RegisterForm';
 import React, { useState } from 'react';
 import useUserStore from 'store/userStore';
+import notifyError from 'utils/notifyError';
 
 const { useForm } = Form;
 
@@ -37,8 +38,6 @@ export default function ChangePassword() {
         newPassword,
       });
 
-      console.log('Change password response', response);
-
       setLoading(false);
 
       handleModalCancel();
@@ -48,8 +47,6 @@ export default function ChangePassword() {
         ...response,
       });
     } catch (error) {
-      console.log('Change password error', error);
-
       setLoading(false);
 
       if (error.message === 'Invalid field: password') {
@@ -59,6 +56,8 @@ export default function ChangePassword() {
             errors: ['Sai mật khẩu'],
           },
         ]);
+      } else {
+        notifyError(error);
       }
     }
   }

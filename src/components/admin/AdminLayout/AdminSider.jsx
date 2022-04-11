@@ -43,7 +43,7 @@ export default function AdminSider(props) {
         </Menu.Item> */}
 
         <Menu.Item key="/admin/users" icon={<FaUserAlt />}>
-          <Link to="/admin/user">Người dùng</Link>
+          <Link to="/admin/users">Người dùng</Link>
         </Menu.Item>
 
         <Menu.Item key="/admin/genres" icon={<FaTag />}>

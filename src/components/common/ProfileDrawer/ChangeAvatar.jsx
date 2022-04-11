@@ -2,6 +2,7 @@ import { Button, message } from 'antd';
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import useUserStore from 'store/userStore';
+import notifyError from 'utils/notifyError';
 
 export default function ChangeAvatar() {
   const user = useUserStore(store => store.user);
@@ -41,13 +42,9 @@ export default function ChangeAvatar() {
       // Upload image
       try {
         uploadImgResponse = await axios.post('/image', formData);
-
-        console.log('Upload image response', uploadImgResponse);
       } catch (error) {
-        console.log('Upload image error', error);
-
         setLoading(false);
-
+        notifyError(error);
         return;
       }
 
@@ -57,13 +54,11 @@ export default function ChangeAvatar() {
           img: uploadImgResponse,
         });
 
-        console.log('Update user response', response);
-
         setToken(response);
 
         message.success('Cập nhật ảnh đại diện thành công!');
       } catch (error) {
-        console.log('Update user error', error);
+        notifyError(error);
       } finally {
         setLoading(false);
       }
@@ -75,9 +70,7 @@ export default function ChangeAvatar() {
 
     // Update image
     try {
-      const response = await axios.put(`/image/${user.img}`, formData);
-
-      console.log('Update image response', response);
+      await axios.put(`/image/${user.img}`, formData);
 
       message.success('Cập nhật ảnh đại diện thành công!');
 
@@ -87,7 +80,7 @@ export default function ChangeAvatar() {
         img: `${user.img}?${new Date().getTime()}`,
       });
     } catch (error) {
-      console.log('Update image error', error);
+      notifyError(error);
     } finally {
       setLoading(false);
     }

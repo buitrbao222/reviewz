@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import paramsToString from 'utils/paramsToString';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { v4 as uuid } from 'uuid';
+import notifyError from 'utils/notifyError';
 
 export default function MovieSlider(props) {
   const { label, params = {}, className } = props;
@@ -31,11 +32,9 @@ export default function MovieSlider(props) {
           },
         });
 
-        console.log('Get movies response', response);
-
         setMovies(response);
       } catch (error) {
-        console.log('Get movies error', error);
+        notifyError(error);
       }
     }
 

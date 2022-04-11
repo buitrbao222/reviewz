@@ -17,6 +17,8 @@ export default function UsersPage() {
 
   const [createModalVisible, setCreateModalVisible] = useState(false);
 
+  const [selectedRow, setSelectedRow] = useState();
+
   const columns = useMemo(
     () => [
       {
@@ -26,8 +28,8 @@ export default function UsersPage() {
       {
         title: 'Quyền quản trị',
         dataIndex: 'roles',
-        render: (roles, record, index) => {
-          if (record.id === user.id) {
+        render: (roles, row, index) => {
+          if (row.id === user.id) {
             return (
               <Tooltip title="Bạn không thể chỉnh sửa quyền quản trị của chính mình">
                 <Switch checked disabled />
@@ -35,7 +37,7 @@ export default function UsersPage() {
             );
           }
 
-          const checked = isAdmin(record);
+          const checked = isAdmin(row);
 
           return (
             <Popconfirm
@@ -44,7 +46,7 @@ export default function UsersPage() {
                   ? 'thu hồi quyền quản trị của tài khoản này?'
                   : 'cấp quyền quản trị cho tài khoản này?'
               }`}
-              onConfirm={() => handleRoleSwitchConfirm(record)}
+              onConfirm={() => handleRoleSwitch(row)}
               okText="Có"
               cancelText="Không"
             >
@@ -58,45 +60,38 @@ export default function UsersPage() {
   );
 
   useEffect(() => {
-    getUsers();
+    loadData();
   }, []);
 
-  async function getUsers() {
+  async function loadData() {
     setLoading(true);
 
     try {
       const response = await axios.get('/user');
-
-      console.log('Get users response', response);
-
       setDataSource(response);
     } catch (error) {
-      console.log('Get users error', error);
       notifyError(error);
     } finally {
       setLoading(false);
     }
   }
 
-  async function handleRoleSwitchConfirm(user) {
+  async function handleRoleSwitch(user) {
     setLoading(true);
 
     try {
-      const response = await axios.put(`/user/${user.id}`, {
+      await axios.put(`/user/${user.id}`, {
         role: isAdmin(user) ? USER_ROLES.USER : USER_ROLES.ADMIN,
       });
 
-      console.log('Change role response', response);
-
-      getUsers();
+      loadData();
     } catch (error) {
-      console.log('Change role error', error);
       setLoading(false);
       notifyError(error);
     }
   }
 
-  function handleAddClick() {
+  function handleCreate() {
     setCreateModalVisible(true);
   }
 
@@ -105,16 +100,19 @@ export default function UsersPage() {
       <TableLayout
         columns={columns}
         dataSource={dataSource}
-        onRefreshClick={getUsers}
-        onAddClick={handleAddClick}
+        onRefetch={loadData}
+        onCreate={handleCreate}
         loading={loading}
         selectable={false}
+        selectedRow={selectedRow}
+        setSelectedRow={setSelectedRow}
+        rowKey="id"
       />
 
       <CreateUserModal
         visible={createModalVisible}
         setVisible={setCreateModalVisible}
-        refetch={getUsers}
+        refetch={loadData}
       />
     </div>
   );

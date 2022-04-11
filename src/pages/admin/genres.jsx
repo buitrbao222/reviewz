@@ -1,5 +1,6 @@
 import axios from 'axios';
 import CreateGenreModal from 'components/admin/CreateGenreModal';
+import EditGenreModal from 'components/admin/EditGenreModal';
 import TableLayout from 'components/admin/TableLayout';
 import { useEffect, useState } from 'react';
 import notifyError from 'utils/notifyError';
@@ -18,56 +19,53 @@ export default function GenresPage() {
 
   const [createModalVisible, setCreateModalVisible] = useState(false);
 
-  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState();
+
+  const [selectedRow, setSelectedRow] = useState();
 
   useEffect(() => {
-    getGenres();
+    loadData();
   }, []);
 
-  async function getGenres() {
+  async function loadData() {
     setLoading(true);
 
     try {
       const response = await axios.get('/category');
-      console.log('Get genres response', response);
       setDataSource(response);
     } catch (error) {
-      console.log('Get genres error', error);
       notifyError(error);
     } finally {
       setLoading(false);
     }
   }
 
-  function openCreateModal() {
+  function handleCreate() {
     setCreateModalVisible(true);
   }
 
-  async function deleteGenre(genreId) {
-    setLoading(true);
-
+  async function handleDelete() {
     try {
-      const response = await axios.delete(`/category/${genreId}`);
-
-      console.log('Delete genre response', response);
-
-      setLoading(false);
-
-      getGenres();
+      await axios.delete(`/category/${selectedRow.id}`);
+      loadData();
     } catch (error) {
-      console.log('Delete genre error', error);
-
       if (error.message === `category've been used`) {
         notifyError('Không thể xóa vì thể loại này đang được sử dụng.');
       } else {
         notifyError(error);
       }
-
-      setLoading(false);
     }
   }
 
-  function openEditModal() {}
+  function handleEdit() {
+    setEditModalVisible(true);
+  }
+
+  function handleEditFinish() {
+    loadData();
+    setSelectedRow(undefined);
+    setEditModalVisible(false);
+  }
 
   return (
     <div>
@@ -75,16 +73,26 @@ export default function GenresPage() {
         columns={columns}
         dataSource={dataSource}
         loading={loading}
-        onRefreshClick={getGenres}
-        onAddClick={openCreateModal}
-        onDeleteConfirm={deleteGenre}
-        onEditClick={openEditModal}
+        onRefetch={loadData}
+        onCreate={handleCreate}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+        selectedRow={selectedRow}
+        setSelectedRow={setSelectedRow}
+        rowKey="id"
       />
 
       <CreateGenreModal
         visible={createModalVisible}
         setVisible={setCreateModalVisible}
-        refetch={getGenres}
+        onFinish={loadData}
+      />
+
+      <EditGenreModal
+        visible={editModalVisible}
+        setVisible={setEditModalVisible}
+        onFinish={handleEditFinish}
+        selectedRow={selectedRow}
       />
     </div>
   );

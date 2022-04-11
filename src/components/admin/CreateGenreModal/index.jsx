@@ -4,7 +4,7 @@ import { useState } from 'react';
 import notifyError from 'utils/notifyError';
 
 export default function CreateGenreModal(props) {
-  const { visible, setVisible, refetch } = props;
+  const { visible, setVisible, onFinish } = props;
 
   const [loading, setLoading] = useState(false);
 
@@ -14,11 +14,9 @@ export default function CreateGenreModal(props) {
     setLoading(true);
 
     try {
-      const response = await axios.post('/category', {
+      await axios.post('/category', {
         name: values.name.trim(),
       });
-
-      console.log('Create genre response', response);
 
       message.success('Thêm thể loại thành công');
 
@@ -26,10 +24,8 @@ export default function CreateGenreModal(props) {
 
       setVisible(false);
 
-      refetch();
+      onFinish();
     } catch (error) {
-      console.log('Create genre error', error);
-
       if (error.message === 'Category existed') {
         form.setFields([
           {

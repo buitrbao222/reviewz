@@ -2,6 +2,7 @@ import { Button, Form, Input, message } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
 import useUserStore from 'store/userStore';
+import notifyError from 'utils/notifyError';
 
 const { useForm } = Form;
 
@@ -25,8 +26,6 @@ export default function LoginForm(props) {
         password,
       });
 
-      console.log('Login response', token);
-
       message.success('Đăng nhập thành công!');
 
       setLoading(false);
@@ -35,8 +34,6 @@ export default function LoginForm(props) {
 
       setToken(token);
     } catch (error) {
-      console.log('Login error', error);
-
       setLoading(false);
 
       switch (error.message) {
@@ -57,6 +54,7 @@ export default function LoginForm(props) {
           ]);
           break;
         default:
+          notifyError(error);
       }
     }
   }

@@ -30,11 +30,8 @@ export default function MovieDetailsPage() {
     try {
       const response = await axios.get(`/movie/detail/${id}`);
 
-      console.log('Get movie details response', response);
-
       setDetails(response);
     } catch (error) {
-      console.log('Get movie details error', error);
       notifyError(error);
     } finally {
       setLoading(x => x - 1);
@@ -44,8 +41,6 @@ export default function MovieDetailsPage() {
   async function loadOtherReviews() {
     try {
       const reviews = await axios.get(`/review/movie/${id}`);
-
-      console.log('Get movie reviews response', reviews);
 
       let otherReviews = [];
       let myReview = undefined;
@@ -64,7 +59,6 @@ export default function MovieDetailsPage() {
       setOtherReviews(otherReviews);
       setMyReview(myReview);
     } catch (error) {
-      console.log('Get movie reviews error', error);
       notifyError(error);
     } finally {
       setLoading(x => x - 1);

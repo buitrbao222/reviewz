@@ -41,13 +41,10 @@ export default function MyReview(props) {
         content: values.content,
       });
 
-      console.log('Post review response', response);
-
       message.success('Bài đánh giá của bạn đang chờ duyệt');
 
       setMyReview(response);
     } catch (error) {
-      console.log('Post review error', error);
       notifyError(error);
     } finally {
       setLoading(false);
@@ -63,8 +60,6 @@ export default function MyReview(props) {
         content: values.content,
       });
 
-      console.log('Edit review response', response);
-
       message.success('Bài đánh giá của bạn đang chờ duyệt');
 
       setMyReview(response);
@@ -76,7 +71,6 @@ export default function MyReview(props) {
         content: response.content,
       });
     } catch (error) {
-      console.log('Edit review error', error);
       notifyError(error);
     } finally {
       setLoading(false);
@@ -87,8 +81,6 @@ export default function MyReview(props) {
     try {
       const response = await axios.delete(`/review/${myReview.id}`);
 
-      console.log('Delete review response', response);
-
       message.success('Bài đánh giá của bạn đã được xóa');
 
       setMyReview(undefined);
@@ -97,7 +89,6 @@ export default function MyReview(props) {
 
       return Promise.resolve(response);
     } catch (error) {
-      console.log('Delete review error', error);
       notifyError(error);
       return Promise.reject(error);
     }

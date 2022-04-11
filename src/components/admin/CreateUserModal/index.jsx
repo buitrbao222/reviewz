@@ -15,13 +15,11 @@ export default function CreateUserModal(props) {
     setLoading(true);
 
     try {
-      const response = await axios.post('/user', {
+      await axios.post('/user', {
         username: values.username,
         password: values.password,
         isAdmin: values.isAdmin,
       });
-
-      console.log('Create user response', response);
 
       message.success('Thêm người dùng thành công');
 
@@ -31,8 +29,6 @@ export default function CreateUserModal(props) {
 
       refetch();
     } catch (error) {
-      console.log('Create user error', error);
-
       if (error.message === 'User existed') {
         form.setFields([
           {

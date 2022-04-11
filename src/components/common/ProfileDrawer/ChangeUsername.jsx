@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import useUserStore from 'store/userStore';
 import { usernameFormRules } from 'components/main/MainLayout/RegisterForm';
+import notifyError from 'utils/notifyError';
 
 const { useForm } = Form;
 
@@ -36,14 +37,10 @@ export default function ChangeUsername(props) {
         username,
       });
 
-      console.log('Change username response', token);
-
       setToken(token);
 
       handleModalCancel();
     } catch (error) {
-      console.log('Change username error', error);
-
       if (error.message === 'User existed') {
         form.setFields([
           {
@@ -51,6 +48,8 @@ export default function ChangeUsername(props) {
             errors: ['Tên đăng nhập này đã tồn tại'],
           },
         ]);
+      } else {
+        notifyError(error);
       }
     } finally {
       setLoading(false);
