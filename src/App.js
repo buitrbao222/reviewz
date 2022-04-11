@@ -45,8 +45,9 @@ function App() {
         }
       >
         <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="user" element={<UsersPage />} />
-        <Route path="genre" element={<GenresPage />} />
+        <Route path="users" element={<UsersPage />} />
+        <Route path="genres" element={<GenresPage />} />
+        <Route index element={<Navigate to="/admin/users" replace />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

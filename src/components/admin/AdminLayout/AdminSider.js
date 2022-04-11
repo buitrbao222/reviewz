@@ -42,32 +42,32 @@ export default function AdminSider(props) {
           <Link to="/admin/dashboard">Thống kê</Link>
         </Menu.Item> */}
 
-        <Menu.Item key="/admin/user" icon={<FaUserAlt />}>
+        <Menu.Item key="/admin/users" icon={<FaUserAlt />}>
           <Link to="/admin/user">Người dùng</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/genre" icon={<FaTag />}>
-          <Link to="/admin/genre">Thể loại</Link>
+        <Menu.Item key="/admin/genres" icon={<FaTag />}>
+          <Link to="/admin/genres">Thể loại</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/movie" icon={<FaFilm />}>
-          <Link to="/admin/movie">Phim</Link>
+        <Menu.Item key="/admin/movies" icon={<FaFilm />}>
+          <Link to="/admin/movies">Phim</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/review" icon={<FaComments />}>
-          <Link to="/admin/review">Đánh giá</Link>
+        <Menu.Item key="/admin/reviews" icon={<FaComments />}>
+          <Link to="/admin/reviews">Đánh giá</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/director" icon={<FaUserTie />}>
-          <Link to="/admin/director">Đạo diễn</Link>
+        <Menu.Item key="/admin/directors" icon={<FaUserTie />}>
+          <Link to="/admin/directors">Đạo diễn</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/actor" icon={<FaTheaterMasks />}>
-          <Link to="/admin/actor">Diễn viên</Link>
+        <Menu.Item key="/admin/actors" icon={<FaTheaterMasks />}>
+          <Link to="/admin/actors">Diễn viên</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/request" icon={<FaCommentMedical />}>
-          <Link to="/admin/request">Yêu cầu</Link>
+        <Menu.Item key="/admin/requests" icon={<FaCommentMedical />}>
+          <Link to="/admin/requests">Yêu cầu</Link>
         </Menu.Item>
       </Menu>
     </Sider>
