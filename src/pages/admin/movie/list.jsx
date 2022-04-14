@@ -54,12 +54,25 @@ export default function AdminMovieListPage() {
     }
   }
 
+  async function handleDelete() {
+    setLoading(true);
+
+    try {
+      await axios.delete(`movie/${selectedRow.id}`);
+      loadData();
+    } catch (error) {
+      notifyError(error);
+      setLoading(false);
+    }
+  }
+
   return (
     <div>
       <TableLayout
         columns={columns}
         dataSource={dataSource}
         onRefetch={loadData}
+        onDelete={handleDelete}
         loading={loading}
         selectedRow={selectedRow}
         setSelectedRow={setSelectedRow}
