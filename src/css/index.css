@@ -132,3 +132,11 @@
   margin: 0;
   width: theme('width.64');
 }
+
+.ant-form-item .ant-picker {
+  width: 100%;
+}
+
+.ant-form-item-has-error .poster-upload-button {
+  border-color: var(--ant-error-color);
+}

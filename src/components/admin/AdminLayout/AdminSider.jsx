@@ -1,21 +1,29 @@
 import { Layout, Menu } from 'antd';
+import { useMemo } from 'react';
 import {
-  FaTag,
-  FaUserAlt,
-  FaFilm,
-  FaComments,
-  FaUserTie,
-  FaTheaterMasks,
   FaCommentMedical,
+  FaComments,
+  FaFilm,
+  FaTag,
+  FaTheaterMasks,
+  FaUserAlt,
+  FaUserTie,
 } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 
 const { Sider } = Layout;
 
+const { SubMenu } = Menu;
+
 export default function AdminSider(props) {
   const { collapsed } = props;
 
   const location = useLocation();
+
+  const selectedKeys = useMemo(
+    () => location.pathname.replace('/admin/', '').split('/'),
+    [location]
+  );
 
   return (
     <Sider
@@ -34,39 +42,45 @@ export default function AdminSider(props) {
       <Menu
         theme="dark"
         mode="inline"
-        selectedKeys={[location.pathname]}
-        defaultSelectedKeys={['/admin/dashboard']}
+        defaultOpenKeys={selectedKeys}
+        selectedKeys={selectedKeys}
         className="in-admin"
       >
         {/* <Menu.Item key="/admin/dashboard" icon={<FaTag />}>
           <Link to="/admin/dashboard">Thống kê</Link>
         </Menu.Item> */}
 
-        <Menu.Item key="/admin/users" icon={<FaUserAlt />}>
+        <Menu.Item key="users" icon={<FaUserAlt />}>
           <Link to="/admin/users">Người dùng</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/genres" icon={<FaTag />}>
+        <Menu.Item key="genres" icon={<FaTag />}>
           <Link to="/admin/genres">Thể loại</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/movies" icon={<FaFilm />}>
-          <Link to="/admin/movies">Phim</Link>
-        </Menu.Item>
+        <SubMenu key="movie" icon={<FaFilm />} title="Phim">
+          <Menu.Item key="list">
+            <Link to="/admin/movie/list">Danh sách phim</Link>
+          </Menu.Item>
 
-        <Menu.Item key="/admin/reviews" icon={<FaComments />}>
+          <Menu.Item key="create">
+            <Link to="/admin/movie/create">Thêm phim</Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <Menu.Item key="reviews" icon={<FaComments />}>
           <Link to="/admin/reviews">Đánh giá</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/directors" icon={<FaUserTie />}>
+        <Menu.Item key="directors" icon={<FaUserTie />}>
           <Link to="/admin/directors">Đạo diễn</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/actors" icon={<FaTheaterMasks />}>
+        <Menu.Item key="actors" icon={<FaTheaterMasks />}>
           <Link to="/admin/actors">Diễn viên</Link>
         </Menu.Item>
 
-        <Menu.Item key="/admin/requests" icon={<FaCommentMedical />}>
+        <Menu.Item key="requests" icon={<FaCommentMedical />}>
           <Link to="/admin/requests">Yêu cầu</Link>
         </Menu.Item>
       </Menu>

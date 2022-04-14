@@ -8,12 +8,12 @@ import useUserStore from 'store/userStore';
 import isAdmin from 'utils/isAdmin';
 import notifyError from 'utils/notifyError';
 
-export default function UsersPage() {
+export default function AdminUsersPage() {
   const user = useUserStore(store => store.user);
 
   const [dataSource, setDataSource] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [createModalVisible, setCreateModalVisible] = useState(false);
 

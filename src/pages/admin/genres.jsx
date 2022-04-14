@@ -12,7 +12,7 @@ const columns = [
   },
 ];
 
-export default function GenresPage() {
+export default function AdminGenresPage() {
   const [dataSource, setDataSource] = useState();
 
   const [loading, setLoading] = useState(true);

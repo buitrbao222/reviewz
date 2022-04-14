@@ -59,11 +59,11 @@ export default function MovieDetails(props) {
           </DetailLine>
 
           <DetailLine title="Lượt đánh giá">
-            {details?.reviews.length} lượt
+            {details?.reviews.length}
           </DetailLine>
 
           {Boolean(details?.starAvg) && (
-            <DetailLine title="Điểm trung bình">{details?.starAvg}</DetailLine>
+            <DetailLine title="Điểm">{details?.starAvg}</DetailLine>
           )}
         </div>
 

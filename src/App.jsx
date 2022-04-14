@@ -3,9 +3,11 @@ import AdminLayout from 'components/admin/AdminLayout';
 import MainLayout from 'components/main/MainLayout';
 import RequireAdmin from 'components/routes/RequireAdmin';
 import HomePage from 'pages';
-import DashboardPage from 'pages/admin/dashboard';
-import GenresPage from 'pages/admin/genres';
-import UsersPage from 'pages/admin/users';
+import AdminMovieCreatePage from 'pages/admin/movie/create';
+import AdminDashboardPage from 'pages/admin/dashboard';
+import AdminGenresPage from 'pages/admin/genres';
+import AdminMovieListPage from 'pages/admin/movie/list';
+import AdminUsersPage from 'pages/admin/users';
 import MovieDetailsPage from 'pages/movie';
 import SearchPage from 'pages/search';
 import { useEffect } from 'react';
@@ -47,9 +49,15 @@ function App() {
           </RequireAdmin>
         }
       >
-        <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="users" element={<UsersPage />} />
-        <Route path="genres" element={<GenresPage />} />
+        <Route path="dashboard" element={<AdminDashboardPage />} />
+        <Route path="users" element={<AdminUsersPage />} />
+        <Route path="genres" element={<AdminGenresPage />} />
+
+        <Route path="movie">
+          <Route path="list" element={<AdminMovieListPage />} />
+          <Route path="create" element={<AdminMovieCreatePage />} />
+        </Route>
+
         <Route index element={<Navigate to="/admin/users" replace />} />
       </Route>
 
