@@ -10,6 +10,7 @@ export default function ProfileDrawer(props) {
   const { visible, onClose } = props;
 
   const user = useUserStore(store => store.user);
+
   return (
     <Drawer title="Thông tin cá nhân" onClose={onClose} visible={visible}>
       <div className="flex flex-col">

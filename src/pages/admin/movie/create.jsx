@@ -4,7 +4,6 @@ import {
   DatePicker,
   Form,
   Input,
-  message,
   Modal,
   Select,
   Spin,
@@ -82,8 +81,10 @@ export default function AdminMovieCreatePage() {
   }
 
   function getValueFromEvent(event) {
-    const { file } = event;
+    const { file, fileList } = event;
 
+    // If file is an image, load preview url and set new file as new value
+    // Else show error modal and keep last file as value
     if (file.type.startsWith('image/')) {
       const reader = new FileReader();
 
@@ -92,28 +93,22 @@ export default function AdminMovieCreatePage() {
       };
 
       reader.readAsDataURL(file);
-    } else {
-      setPosterPreview(undefined);
-    }
 
-    return file;
+      return file;
+    } else {
+      Modal.error({
+        title: 'Chỉ chấp nhận file ảnh',
+      });
+
+      return fileList.at(-2)?.originFileObj;
+    }
   }
 
   function getValueProps(value) {
     return value;
   }
 
-  function onlyAcceptImage(rule, file) {
-    if (file.type.startsWith('image/')) {
-      return Promise.resolve();
-    }
-
-    return Promise.reject('Chỉ chấp nhận file ảnh');
-  }
-
   async function handleFinish(values) {
-    console.log(values);
-
     const {
       name,
       summary,
@@ -124,14 +119,13 @@ export default function AdminMovieCreatePage() {
       posterFile,
     } = values;
 
-    let posterId;
-
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append('file', posterFile);
-
+    // Upload poster
+    let posterId;
     try {
+      const formData = new FormData();
+      formData.append('file', posterFile);
       posterId = await axios.post('image', formData);
     } catch (error) {
       notifyError(error);
@@ -139,6 +133,7 @@ export default function AdminMovieCreatePage() {
       return;
     }
 
+    // Upload movie with poster id
     try {
       await axios.post('movie', {
         nameEn: name,
@@ -281,7 +276,6 @@ export default function AdminMovieCreatePage() {
               required: true,
               message: 'Hãy chọn poster',
             },
-            { validator: onlyAcceptImage },
           ]}
           validateFirst
         >

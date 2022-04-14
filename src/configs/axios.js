@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { STORAGE_KEYS } from 'configs/constants';
+import useUserStore from 'store/userStore';
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND;
 
@@ -35,6 +36,10 @@ axios.interceptors.response.use(
     } = error.response;
 
     console.log(`${method.toUpperCase()} RESPONSE ERROR ${url}`, data);
+
+    if (data.message === 'Token invalid') {
+      useUserStore.getState().logout();
+    }
 
     return Promise.reject(data);
   }

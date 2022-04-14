@@ -2,9 +2,12 @@ import axios from 'axios';
 import TableLayout from 'components/admin/TableLayout';
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import notifyError from 'utils/notifyError';
 
 export default function AdminMovieListPage() {
+  const navigate = useNavigate();
+
   const [dataSource, setDataSource] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -66,6 +69,10 @@ export default function AdminMovieListPage() {
     }
   }
 
+  function handleEdit() {
+    navigate(`/admin/movie/edit/${selectedRow.id}`);
+  }
+
   return (
     <div>
       <TableLayout
@@ -73,6 +80,7 @@ export default function AdminMovieListPage() {
         dataSource={dataSource}
         onRefetch={loadData}
         onDelete={handleDelete}
+        onEdit={handleEdit}
         loading={loading}
         selectedRow={selectedRow}
         setSelectedRow={setSelectedRow}

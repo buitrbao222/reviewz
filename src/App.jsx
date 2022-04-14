@@ -13,6 +13,7 @@ import SearchPage from 'pages/search';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import useUserStore from 'store/userStore';
+import AdminMovieEditPage from 'pages/admin/movie/edit';
 
 function App() {
   const loadFromToken = useUserStore(store => store.loadFromToken);
@@ -56,6 +57,7 @@ function App() {
         <Route path="movie">
           <Route path="list" element={<AdminMovieListPage />} />
           <Route path="create" element={<AdminMovieCreatePage />} />
+          <Route path="edit/:id" element={<AdminMovieEditPage />} />
         </Route>
 
         <Route index element={<Navigate to="/admin/users" replace />} />
