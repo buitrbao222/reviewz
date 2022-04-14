@@ -114,3 +114,21 @@
 .ant-btn-ghost.in-admin:not(:hover) {
   border-color: theme('colors.dark');
 }
+
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(theme('width.64'), 1fr));
+  gap: 24px;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(theme('width.64'), 1fr));
+  gap: 24px;
+  align-items: flex-end;
+}
+
+.filter-grid .ant-form-item {
+  margin: 0;
+  width: theme('width.64');
+}

@@ -7,6 +7,7 @@ import DashboardPage from 'pages/admin/dashboard';
 import GenresPage from 'pages/admin/genres';
 import UsersPage from 'pages/admin/users';
 import MovieDetailsPage from 'pages/movie';
+import SearchPage from 'pages/search';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import useUserStore from 'store/userStore';
@@ -34,6 +35,8 @@ function App() {
         <Route index element={<HomePage />} />
 
         <Route path="movie/:id" element={<MovieDetailsPage />} />
+
+        <Route path="search" element={<SearchPage />} />
       </Route>
 
       <Route

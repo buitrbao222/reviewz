@@ -4,14 +4,15 @@ import { STORAGE_KEYS } from 'configs/constants';
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND;
 
 axios.interceptors.request.use(config => {
-  const method = config.method.toUpperCase();
-  console.log(`${method.toUpperCase()} REQUEST ${config.url}`);
-
   const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
 
   config.headers = {
     Authorization: token ? `Bearer ${token}` : '',
   };
+
+  const method = config.method.toUpperCase();
+
+  console.log(`${method.toUpperCase()} REQUEST ${config.url}`, config);
 
   return config;
 });

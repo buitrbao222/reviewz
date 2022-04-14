@@ -50,7 +50,7 @@ export default function MovieSlider(props) {
 
         <Link
           className="text-base font-semibold leading-none hover:underline-offset-4 hover:underline hover:decoration-2"
-          to={`/search/${paramString}`}
+          to={`/search/?${paramString}`}
         >
           Xem thêm
         </Link>

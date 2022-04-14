@@ -8,7 +8,7 @@ export default function HomePage() {
       <MovieSlider
         label="Điểm cao"
         params={{
-          highestStar: true,
+          sort: 'highestStar',
         }}
         className="mt-12"
       />
@@ -16,7 +16,7 @@ export default function HomePage() {
       <MovieSlider
         label="Nhiều đánh giá"
         params={{
-          mostRated: true,
+          sort: 'mostRated',
         }}
         className="mt-12"
       />
