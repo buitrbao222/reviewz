@@ -33,7 +33,7 @@ export default function ChangeUsername(props) {
     setLoading(true);
 
     try {
-      const token = await axios.put(`/user/${user.id}`, {
+      const token = await axios.put(`user/${user.id}`, {
         username,
       });
 

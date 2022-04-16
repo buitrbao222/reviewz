@@ -41,7 +41,7 @@ export default function ChangeAvatar() {
 
       // Upload image
       try {
-        uploadImgResponse = await axios.post('/image', formData);
+        uploadImgResponse = await axios.post('image', formData);
       } catch (error) {
         setLoading(false);
         notifyError(error);
@@ -50,7 +50,7 @@ export default function ChangeAvatar() {
 
       // Update user avatar with uploaded image
       try {
-        const response = await axios.put(`/user/${user.id}`, {
+        const response = await axios.put(`user/${user.id}`, {
           img: uploadImgResponse,
         });
 
@@ -70,7 +70,7 @@ export default function ChangeAvatar() {
 
     // Update image
     try {
-      await axios.put(`/image/${user.img}`, formData);
+      await axios.put(`image/${user.img}`, formData);
 
       message.success('Cập nhật ảnh đại diện thành công!');
 

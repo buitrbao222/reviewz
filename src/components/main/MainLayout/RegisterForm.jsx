@@ -45,7 +45,7 @@ export default function RegisterForm(props) {
     setLoading(true);
 
     try {
-      const response = await axios.post('/user/register', {
+      const response = await axios.post('user/register', {
         username,
         password,
       });

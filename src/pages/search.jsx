@@ -126,7 +126,7 @@ export default function SearchPage() {
     removeFalsyValues(params);
 
     try {
-      const response = await axios.get('/movie/filter', {
+      const response = await axios.get('movie/filter', {
         params,
       });
 

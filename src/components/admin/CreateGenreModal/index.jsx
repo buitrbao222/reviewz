@@ -14,7 +14,7 @@ export default function CreateGenreModal(props) {
     setLoading(true);
 
     try {
-      await axios.post('/category', {
+      await axios.post('category', {
         name: values.name.trim(),
       });
 

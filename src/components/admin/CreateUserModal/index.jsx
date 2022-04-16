@@ -15,7 +15,7 @@ export default function CreateUserModal(props) {
     setLoading(true);
 
     try {
-      await axios.post('/user', {
+      await axios.post('user', {
         username: values.username,
         password: values.password,
         isAdmin: values.isAdmin,

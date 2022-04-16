@@ -21,7 +21,7 @@ export default function LoginForm(props) {
     setLoading(true);
 
     try {
-      const token = await axios.post('/user/login', {
+      const token = await axios.post('user/login', {
         username,
         password,
       });

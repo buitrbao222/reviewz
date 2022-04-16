@@ -67,7 +67,7 @@ export default function AdminUserPage() {
     setLoading(true);
 
     try {
-      const response = await axios.get('/user');
+      const response = await axios.get('user');
       setDataSource(response);
     } catch (error) {
       notifyError(error);
@@ -80,7 +80,7 @@ export default function AdminUserPage() {
     setLoading(true);
 
     try {
-      await axios.put(`/user/${user.id}`, {
+      await axios.put(`user/${user.id}`, {
         role: isAdmin(user) ? USER_ROLES.USER : USER_ROLES.ADMIN,
       });
 

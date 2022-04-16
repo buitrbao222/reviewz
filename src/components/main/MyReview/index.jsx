@@ -35,7 +35,7 @@ export default function MyReview(props) {
     setLoading(true);
 
     try {
-      const response = await axios.post('/review', {
+      const response = await axios.post('review', {
         idMovie: movieId,
         star: values.rating,
         content: values.content,
@@ -55,7 +55,7 @@ export default function MyReview(props) {
     setLoading(true);
 
     try {
-      const response = await axios.put(`/review/${myReview.id}`, {
+      const response = await axios.put(`review/${myReview.id}`, {
         star: values.rating,
         content: values.content,
       });
@@ -79,7 +79,7 @@ export default function MyReview(props) {
 
   async function deleteReview() {
     try {
-      const response = await axios.delete(`/review/${myReview.id}`);
+      const response = await axios.delete(`review/${myReview.id}`);
 
       message.success('Bài đánh giá của bạn đã được xóa');
 

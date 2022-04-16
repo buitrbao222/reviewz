@@ -31,7 +31,7 @@ export default function AdminGenrePage() {
     setLoading(true);
 
     try {
-      const response = await axios.get('/category');
+      const response = await axios.get('category');
       setDataSource(response);
     } catch (error) {
       notifyError(error);
@@ -46,7 +46,7 @@ export default function AdminGenrePage() {
 
   async function handleDelete() {
     try {
-      await axios.delete(`/category/${selectedRow.id}`);
+      await axios.delete(`category/${selectedRow.id}`);
       loadData();
     } catch (error) {
       if (error.message === `category've been used`) {

@@ -29,7 +29,7 @@ export default function EditGenreModal(props) {
     setLoading(true);
 
     try {
-      await axios.put(`/category/${selectedRow.id}`, {
+      await axios.put(`category/${selectedRow.id}`, {
         name: values.name.trim(),
       });
 

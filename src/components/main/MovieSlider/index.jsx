@@ -25,7 +25,7 @@ export default function MovieSlider(props) {
   useEffect(() => {
     async function loadMovies() {
       try {
-        const response = await axios.get('/movie/filter', {
+        const response = await axios.get('movie/filter', {
           params: {
             limit: 12,
             ...params,
