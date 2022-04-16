@@ -3,18 +3,20 @@ import AdminLayout from 'components/admin/AdminLayout';
 import MainLayout from 'components/main/MainLayout';
 import RequireAdmin from 'components/routes/RequireAdmin';
 import HomePage from 'pages';
-import AdminMovieCreatePage from 'pages/admin/movie/create';
+import AdminActorPage from 'pages/admin/actor';
 import AdminDashboardPage from 'pages/admin/dashboard';
+import AdminDirectorPage from 'pages/admin/director';
 import AdminGenrePage from 'pages/admin/genre';
+import AdminMovieCreatePage from 'pages/admin/movie/create';
+import AdminMovieEditPage from 'pages/admin/movie/edit';
 import AdminMovieListPage from 'pages/admin/movie/list';
+import AdminReviewPage from 'pages/admin/review';
 import AdminUserPage from 'pages/admin/user';
 import MovieDetailsPage from 'pages/movie';
 import SearchPage from 'pages/search';
 import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import useUserStore from 'store/userStore';
-import AdminMovieEditPage from 'pages/admin/movie/edit';
-import AdminReviewPage from 'pages/admin/review';
 
 function App() {
   const loadFromToken = useUserStore(store => store.loadFromToken);
@@ -52,8 +54,14 @@ function App() {
         }
       >
         <Route path="dashboard" element={<AdminDashboardPage />} />
+
         <Route path="user" element={<AdminUserPage />} />
+
         <Route path="genre" element={<AdminGenrePage />} />
+
+        <Route path="director" element={<AdminDirectorPage />} />
+
+        <Route path="actor" element={<AdminActorPage />} />
 
         <Route path="movie">
           <Route path="list" element={<AdminMovieListPage />} />
