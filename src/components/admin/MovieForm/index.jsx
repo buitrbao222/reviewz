@@ -153,148 +153,160 @@ export default function MovieForm(props) {
         Trở về danh sách
       </Button>
 
-      <Spin wrapperClassName="p-4 bg-white" spinning={loadingFormData}>
-        <Form
-          form={form}
-          requiredMark={false}
-          layout="vertical"
-          onFinish={onFinish}
-        >
-          <Form.Item
-            name="name"
-            label="Tên phim"
-            rules={[{ required: true, message: 'Hãy nhập tên phim' }]}
-          >
-            <Input allowClear />
-          </Form.Item>
+      <div className="bg-white">
+        <div className="ant-modal-header">
+          <div className="ant-modal-title">{title}</div>
+        </div>
 
-          <Form.Item
-            name="releaseDate"
-            label="Ngày công chiếu"
-            format="DD/MM/YYYY"
-            rules={[{ required: true, message: 'Hãy chọn ngày công chiếu' }]}
+        <Spin wrapperClassName="ant-modal-body" spinning={loadingFormData}>
+          <Form
+            form={form}
+            requiredMark={false}
+            layout="vertical"
+            onFinish={onFinish}
           >
-            <DatePicker allowClear placeholder="" />
-          </Form.Item>
-
-          <Form.Item
-            name="summary"
-            label="Sơ lược"
-            rules={[{ required: true, message: 'Hãy nhập sơ lược' }]}
-          >
-            <Input.TextArea allowClear autoSize />
-          </Form.Item>
-
-          <Form.Item
-            name="genres"
-            label="Thể loại"
-            rules={[{ required: true, message: 'Hãy chọn ít nhất 1 thể loại' }]}
-          >
-            <Select
-              mode="multiple"
-              showSearch
-              allowClear
-              notFoundContent={loadingGenres ? <Spin size="small" /> : null}
-              placeholder={loadingGenres ? 'Đang tải...' : ''}
-              disabled={loadingGenres}
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().includes(input.toLowerCase())
-              }
+            <Form.Item
+              name="name"
+              label="Tên phim"
+              rules={[{ required: true, message: 'Hãy nhập tên phim' }]}
             >
-              {genres.map(x => (
-                <Option key={x.id} value={x.id}>
-                  {x.name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
+              <Input allowClear />
+            </Form.Item>
 
-          <Form.Item
-            name="actors"
-            label="Diễn viên"
-            rules={[
-              { required: true, message: 'Hãy chọn ít nhất 1 diễn viên' },
-            ]}
-          >
-            <Select
-              mode="multiple"
-              showSearch
-              allowClear
-              notFoundContent={loadingActors ? <Spin size="small" /> : null}
-              placeholder={loadingActors ? 'Đang tải...' : ''}
-              disabled={loadingActors}
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().includes(input.toLowerCase())
-              }
+            <Form.Item
+              name="releaseDate"
+              label="Ngày công chiếu"
+              format="DD/MM/YYYY"
+              rules={[{ required: true, message: 'Hãy chọn ngày công chiếu' }]}
             >
-              {actors.map(x => (
-                <Option key={x.id} value={x.id}>
-                  {x.name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
+              <DatePicker allowClear placeholder="" />
+            </Form.Item>
 
-          <Form.Item
-            name="directors"
-            label="Đạo diễn"
-            rules={[{ required: true, message: 'Hãy chọn ít nhất 1 đạo diễn' }]}
-          >
-            <Select
-              mode="multiple"
-              showSearch
-              allowClear
-              notFoundContent={loadingDirectors ? <Spin size="small" /> : null}
-              placeholder={loadingDirectors ? 'Đang tải...' : ''}
-              disabled={loadingDirectors}
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().includes(input.toLowerCase())
-              }
+            <Form.Item
+              name="summary"
+              label="Sơ lược"
+              rules={[{ required: true, message: 'Hãy nhập sơ lược' }]}
             >
-              {directors.map(x => (
-                <Option key={x.id} value={x.id}>
-                  {x.name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
+              <Input.TextArea allowClear autoSize />
+            </Form.Item>
 
-          <Form.Item
-            name="posterFile"
-            label="Poster"
-            getValueFromEvent={getValueFromEvent}
-            getValueProps={getValueProps}
-            rules={[posterFileValidator]}
-            validateFirst
-          >
-            <Upload
-              beforeUpload={() => false}
-              accept="image/*"
-              showUploadList={false}
+            <Form.Item
+              name="genres"
+              label="Thể loại"
+              rules={[
+                { required: true, message: 'Hãy chọn ít nhất 1 thể loại' },
+              ]}
             >
-              <Button
-                icon={<UploadOutlined />}
-                className="poster-upload-button"
+              <Select
+                mode="multiple"
+                showSearch
+                allowClear
+                notFoundContent={loadingGenres ? <Spin size="small" /> : null}
+                placeholder={loadingGenres ? 'Đang tải...' : ''}
+                disabled={loadingGenres}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().includes(input.toLowerCase())
+                }
               >
-                Chọn file
+                {genres.map(x => (
+                  <Option key={x.id} value={x.id}>
+                    {x.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="actors"
+              label="Diễn viên"
+              rules={[
+                { required: true, message: 'Hãy chọn ít nhất 1 diễn viên' },
+              ]}
+            >
+              <Select
+                mode="multiple"
+                showSearch
+                allowClear
+                notFoundContent={loadingActors ? <Spin size="small" /> : null}
+                placeholder={loadingActors ? 'Đang tải...' : ''}
+                disabled={loadingActors}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().includes(input.toLowerCase())
+                }
+              >
+                {actors.map(x => (
+                  <Option key={x.id} value={x.id}>
+                    {x.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="directors"
+              label="Đạo diễn"
+              rules={[
+                { required: true, message: 'Hãy chọn ít nhất 1 đạo diễn' },
+              ]}
+            >
+              <Select
+                mode="multiple"
+                showSearch
+                allowClear
+                notFoundContent={
+                  loadingDirectors ? <Spin size="small" /> : null
+                }
+                placeholder={loadingDirectors ? 'Đang tải...' : ''}
+                disabled={loadingDirectors}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().includes(input.toLowerCase())
+                }
+              >
+                {directors.map(x => (
+                  <Option key={x.id} value={x.id}>
+                    {x.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="posterFile"
+              label="Poster"
+              getValueFromEvent={getValueFromEvent}
+              getValueProps={getValueProps}
+              rules={[posterFileValidator]}
+              validateFirst
+            >
+              <Upload
+                beforeUpload={() => false}
+                accept="image/*"
+                showUploadList={false}
+              >
+                <Button
+                  icon={<UploadOutlined />}
+                  className="poster-upload-button"
+                >
+                  Chọn file
+                </Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item noStyle shouldUpdate={posterPreviewShouldUpdate}>
+              {form => <PosterPreview {...form} />}
+            </Form.Item>
+
+            <Form.Item>
+              <Button htmlType="submit" type="primary" loading={loading}>
+                {submitLabel}
               </Button>
-            </Upload>
-          </Form.Item>
-
-          <Form.Item noStyle shouldUpdate={posterPreviewShouldUpdate}>
-            {form => <PosterPreview {...form} />}
-          </Form.Item>
-
-          <Form.Item>
-            <Button htmlType="submit" type="primary" loading={loading}>
-              {submitLabel}
-            </Button>
-          </Form.Item>
-        </Form>
-      </Spin>
+            </Form.Item>
+          </Form>
+        </Spin>
+      </div>
     </div>
   );
 }
