@@ -13,10 +13,10 @@ export default function ChangeAvatar() {
 
   const [loading, setLoading] = useState(false);
 
-  const inputRef = useRef();
+  const fileInputRef = useRef();
 
   function handleClick() {
-    inputRef.current?.click();
+    fileInputRef.current?.click();
   }
 
   async function handleImageChange(e) {
@@ -95,7 +95,7 @@ export default function ChangeAvatar() {
       <input
         onChange={handleImageChange}
         accept="image/*"
-        ref={inputRef}
+        ref={fileInputRef}
         hidden
         type="file"
       />

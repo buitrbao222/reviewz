@@ -1,17 +1,14 @@
-import { RollbackOutlined } from '@ant-design/icons';
-import { Button, Form, message, Spin } from 'antd';
+import { Form, message } from 'antd';
 import axios from 'axios';
 import MovieForm from 'components/admin/MovieForm';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import getImage from 'utils/getImage';
 import notifyError from 'utils/notifyError';
 
 export default function AdminMovieEditPage() {
   const { id } = useParams();
-
-  const navigate = useNavigate();
 
   const [form] = Form.useForm();
 
@@ -24,10 +21,6 @@ export default function AdminMovieEditPage() {
   useEffect(() => {
     loadMovie();
   }, []);
-
-  function handleBack() {
-    navigate('/admin/movie/list');
-  }
 
   async function loadMovie() {
     try {
@@ -109,19 +102,13 @@ export default function AdminMovieEditPage() {
   }
 
   return (
-    <div>
-      <Button icon={<RollbackOutlined />} onClick={handleBack} className="mb-4">
-        Trở về danh sách
-      </Button>
-
-      <Spin spinning={loadingMovie}>
-        <MovieForm
-          form={form}
-          loading={loading}
-          onFinish={handleFinish}
-          submitLabel="Lưu thay đổi"
-        />
-      </Spin>
-    </div>
+    <MovieForm
+      form={form}
+      loading={loading}
+      onFinish={handleFinish}
+      submitLabel="Lưu thay đổi"
+      loadingFormData={loadingMovie}
+      title="Sửa phim"
+    />
   );
 }

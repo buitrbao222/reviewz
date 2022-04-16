@@ -13,8 +13,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 const { Sider } = Layout;
 
-const { SubMenu } = Menu;
-
 export default function AdminSider(props) {
   const { collapsed } = props;
 
@@ -58,15 +56,9 @@ export default function AdminSider(props) {
           <Link to="/admin/genres">Thể loại</Link>
         </Menu.Item>
 
-        <SubMenu key="movie" icon={<FaFilm />} title="Phim">
-          <Menu.Item key="list">
-            <Link to="/admin/movie/list">Danh sách phim</Link>
-          </Menu.Item>
-
-          <Menu.Item key="create">
-            <Link to="/admin/movie/create">Thêm phim</Link>
-          </Menu.Item>
-        </SubMenu>
+        <Menu.Item key="movie" icon={<FaFilm />}>
+          <Link to="/admin/movie/list">Phim</Link>
+        </Menu.Item>
 
         <Menu.Item key="reviews" icon={<FaComments />}>
           <Link to="/admin/reviews">Đánh giá</Link>

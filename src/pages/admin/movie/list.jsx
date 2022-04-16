@@ -57,6 +57,10 @@ export default function AdminMovieListPage() {
     }
   }
 
+  async function handleCreate() {
+    navigate('/admin/movie/create');
+  }
+
   async function handleDelete() {
     setLoading(true);
 
@@ -79,6 +83,7 @@ export default function AdminMovieListPage() {
         columns={columns}
         dataSource={dataSource}
         onRefetch={loadData}
+        onCreate={handleCreate}
         onDelete={handleDelete}
         onEdit={handleEdit}
         loading={loading}
