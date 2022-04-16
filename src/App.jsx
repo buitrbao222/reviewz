@@ -10,6 +10,7 @@ import AdminGenrePage from 'pages/admin/genre';
 import AdminMovieCreatePage from 'pages/admin/movie/create';
 import AdminMovieEditPage from 'pages/admin/movie/edit';
 import AdminMovieListPage from 'pages/admin/movie/list';
+import AdminRequestPage from 'pages/admin/request';
 import AdminReviewPage from 'pages/admin/review';
 import AdminUserPage from 'pages/admin/user';
 import MovieDetailsPage from 'pages/movie';
@@ -62,6 +63,8 @@ function App() {
         <Route path="director" element={<AdminDirectorPage />} />
 
         <Route path="actor" element={<AdminActorPage />} />
+
+        <Route path="request" element={<AdminRequestPage />} />
 
         <Route path="movie">
           <Route path="list" element={<AdminMovieListPage />} />

@@ -2,7 +2,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 
 export default function confirmModal(props) {
-  const { onOk, title } = props;
+  const { onOk, title, danger = true } = props;
 
   Modal.confirm({
     title: title,
@@ -11,7 +11,7 @@ export default function confirmModal(props) {
     okText: 'Có',
     okType: 'primary',
     okButtonProps: {
-      danger: true,
+      danger,
     },
     cancelText: 'Không',
   });

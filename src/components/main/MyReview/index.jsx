@@ -96,7 +96,7 @@ export default function MyReview(props) {
 
   function confirmDeleteReview() {
     confirmModal({
-      title: 'Bạn có chắc là muốn xóa bài đánh giá này?',
+      title: 'Bạn có chắc là muốn xóa đánh giá này?',
       onOk: deleteReview,
     });
   }

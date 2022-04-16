@@ -7,8 +7,6 @@ import notifyError from 'utils/notifyError';
 export default function ReviewDetailsModal(props) {
   const { visible, setVisible, selectedRow, refetch } = props;
 
-  console.log(selectedRow);
-
   function handleCancel() {
     setVisible(false);
   }
@@ -16,9 +14,12 @@ export default function ReviewDetailsModal(props) {
   function handleApprove() {
     confirmModal({
       title: 'Bạn có chắc là muốn duyệt đánh giá này?',
+      danger: false,
       onOk: async function () {
         try {
           await axios.post(`review/verify/${selectedRow.id}`);
+          setVisible(false);
+          refetch();
         } catch (error) {
           notifyError(error);
         }
