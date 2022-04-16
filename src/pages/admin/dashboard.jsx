@@ -1,3 +1,9 @@
+import ReviewStatistics from 'components/admin/ReviewStatistics';
+
 export default function AdminDashboardPage() {
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      <ReviewStatistics />
+    </div>
+  );
 }

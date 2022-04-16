@@ -8,6 +8,7 @@ import {
   FaTheaterMasks,
   FaUserAlt,
   FaUserTie,
+  FaChartLine,
 } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -44,9 +45,9 @@ export default function AdminSider(props) {
         selectedKeys={selectedKeys}
         className="in-admin"
       >
-        {/* <Menu.Item key="/admin/dashboard" icon={<FaTag />}>
+        <Menu.Item key="dashboard" icon={<FaChartLine />}>
           <Link to="/admin/dashboard">Thống kê</Link>
-        </Menu.Item> */}
+        </Menu.Item>
 
         <Menu.Item key="user" icon={<FaUserAlt />}>
           <Link to="/admin/user">Người dùng</Link>
