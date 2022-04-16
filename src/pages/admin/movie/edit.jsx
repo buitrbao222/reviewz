@@ -52,8 +52,6 @@ export default function AdminMovieEditPage() {
   }
 
   async function handleFinish(values) {
-    console.log('Edit movie form values:', values);
-
     const {
       name,
       summary,
@@ -62,6 +60,7 @@ export default function AdminMovieEditPage() {
       actors,
       directors,
       posterFile,
+      posterPreviewUrl,
     } = values;
 
     setLoading(true);
@@ -70,9 +69,7 @@ export default function AdminMovieEditPage() {
 
     const initialPosterPreviewUrl = getImage(movie.img);
 
-    const posterPreviewUrl = form.getFieldValue('posterPreviewUrl');
-
-    // Upload poster if poster field changed
+    // Upload poster if posterPreviewUrl field changed
     if (posterPreviewUrl !== initialPosterPreviewUrl) {
       try {
         const formData = new FormData();
@@ -98,7 +95,12 @@ export default function AdminMovieEditPage() {
         img: posterId,
       });
 
-      message.success('Lưu thay đổi thành công.');
+      message.success('Lưu thay đổi thành công');
+
+      window.scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
     } catch (error) {
       notifyError(error);
     } finally {

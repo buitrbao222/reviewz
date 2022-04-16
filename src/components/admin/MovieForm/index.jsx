@@ -15,7 +15,7 @@ import notifyError from 'utils/notifyError';
 
 const { Option } = Select;
 
-function posterValidator(form) {
+function posterFileValidator(form) {
   return {
     validator() {
       if (form.getFieldValue('posterPreviewUrl')) {
@@ -244,7 +244,7 @@ export default function MovieForm(props) {
           label="Poster"
           getValueFromEvent={getValueFromEvent}
           getValueProps={getValueProps}
-          rules={[posterValidator]}
+          rules={[posterFileValidator]}
           validateFirst
         >
           <Upload
@@ -258,11 +258,13 @@ export default function MovieForm(props) {
           </Upload>
         </Form.Item>
 
-        <Form.Item
-          noStyle
-          shouldUpdate={posterPreviewShouldUpdate}
-          children={PosterPreview}
-        />
+        <Form.Item noStyle shouldUpdate={posterPreviewShouldUpdate}>
+          {form => (
+            <Form.Item name="posterPreviewUrl">
+              <PosterPreview {...form} />
+            </Form.Item>
+          )}
+        </Form.Item>
 
         <Form.Item>
           <Button htmlType="submit" type="primary" loading={loading}>
