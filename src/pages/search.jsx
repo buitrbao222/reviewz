@@ -1,6 +1,7 @@
-import { Button, Divider, Form, Input, Select, Spin } from 'antd';
+import { BackTop, Button, Divider, Form, Input, Select, Spin } from 'antd';
 import axios from 'axios';
 import MovieCard from 'components/main/MovieCard';
+import RequestMovie from 'components/main/RequestMovie';
 import { useEffect, useState } from 'react';
 import { createSearchParams, useSearchParams } from 'react-router-dom';
 import notifyError from 'utils/notifyError';
@@ -147,6 +148,8 @@ export default function SearchPage() {
 
   return (
     <div className="flex flex-col flex-1 py-6 text-dark">
+      <BackTop />
+
       <h1 className="m-0 text-4xl">Tìm kiếm</h1>
 
       <Divider />
@@ -296,6 +299,14 @@ export default function SearchPage() {
             <MovieCard key={x.id} movie={x} />
           ))}
         </div>
+      )}
+
+      {!loadingMovies && (
+        <>
+          <Divider />
+
+          <RequestMovie />
+        </>
       )}
     </div>
   );
