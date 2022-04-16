@@ -1,10 +1,11 @@
 import { RollbackOutlined } from '@ant-design/icons';
-import { Button, Form, Spin } from 'antd';
+import { Button, Form, message, Spin } from 'antd';
 import axios from 'axios';
 import MovieForm from 'components/admin/MovieForm';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import getImage from 'utils/getImage';
 import notifyError from 'utils/notifyError';
 
 export default function AdminMovieEditPage() {
@@ -41,6 +42,7 @@ export default function AdminMovieEditPage() {
         genres: movie.categories,
         actors: movie.actors,
         directors: movie.directors,
+        posterPreviewUrl: getImage(movie.img),
       });
     } catch (error) {
       notifyError();
@@ -50,6 +52,8 @@ export default function AdminMovieEditPage() {
   }
 
   async function handleFinish(values) {
+    console.log('Edit movie form values:', values);
+
     const {
       name,
       summary,
@@ -62,21 +66,39 @@ export default function AdminMovieEditPage() {
 
     setLoading(true);
 
+    let posterId = movie.img;
+
+    const initialPosterPreviewUrl = getImage(movie.img);
+
+    const posterPreviewUrl = form.getFieldValue('posterPreviewUrl');
+
     // Upload poster if poster field changed
-    let posterId;
-    try {
-      const formData = new FormData();
-      formData.append('file', posterFile);
-      posterId = await axios.post('image', formData);
-    } catch (error) {
-      notifyError(error);
-      setLoading(false);
-      return;
+    if (posterPreviewUrl !== initialPosterPreviewUrl) {
+      try {
+        const formData = new FormData();
+        formData.append('file', posterFile);
+        posterId = await axios.post('image', formData);
+      } catch (error) {
+        notifyError(error);
+        setLoading(false);
+        return;
+      }
     }
 
     // Update movie
     try {
-      const response = await axios.put(`movie/${id}`);
+      await axios.put(`movie/${id}`, {
+        nameEn: name,
+        nameVn: '',
+        summary,
+        releaseDate: releaseDate.valueOf(),
+        categories: genres,
+        actors,
+        directors,
+        img: posterId,
+      });
+
+      message.success('Lưu thay đổi thành công.');
     } catch (error) {
       notifyError(error);
     } finally {

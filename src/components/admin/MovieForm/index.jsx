@@ -15,6 +15,34 @@ import notifyError from 'utils/notifyError';
 
 const { Option } = Select;
 
+function posterValidator(form) {
+  return {
+    validator() {
+      if (form.getFieldValue('posterPreviewUrl')) {
+        return Promise.resolve();
+      }
+
+      return Promise.reject('Hãy chọn poster');
+    },
+  };
+}
+
+function posterPreviewShouldUpdate(prevValues, curValues) {
+  return prevValues.posterPreviewUrl !== curValues.posterPreviewUrl;
+}
+
+function PosterPreview(form) {
+  const posterPreviewUrl = form.getFieldValue('posterPreviewUrl');
+
+  if (!posterPreviewUrl) {
+    return null;
+  }
+
+  return (
+    <img src={posterPreviewUrl} alt="" className="max-w-full mb-6 -mt-3" />
+  );
+}
+
 export default function MovieForm(props) {
   const { form, onFinish, loading, submitLabel } = props;
 
@@ -29,8 +57,6 @@ export default function MovieForm(props) {
   const [actors, setActors] = useState([]);
 
   const [directors, setDirectors] = useState([]);
-
-  const [posterPreview, setPosterPreview] = useState();
 
   // Load genres, actors, and directors on mount for filter selects
   useEffect(() => {
@@ -84,7 +110,9 @@ export default function MovieForm(props) {
       const reader = new FileReader();
 
       reader.onload = function () {
-        setPosterPreview(reader.result);
+        form.setFieldsValue({
+          posterPreviewUrl: reader.result,
+        });
       };
 
       reader.readAsDataURL(file);
@@ -216,12 +244,7 @@ export default function MovieForm(props) {
           label="Poster"
           getValueFromEvent={getValueFromEvent}
           getValueProps={getValueProps}
-          rules={[
-            {
-              required: true,
-              message: 'Hãy chọn poster',
-            },
-          ]}
+          rules={[posterValidator]}
           validateFirst
         >
           <Upload
@@ -235,21 +258,14 @@ export default function MovieForm(props) {
           </Upload>
         </Form.Item>
 
-        {posterPreview && (
-          <img
-            src={posterPreview}
-            alt="poster"
-            className="max-w-full mb-6 -mt-3"
-          />
-        )}
+        <Form.Item
+          noStyle
+          shouldUpdate={posterPreviewShouldUpdate}
+          children={PosterPreview}
+        />
 
         <Form.Item>
-          <Button
-            htmlType="submit"
-            type="primary"
-            loading={loading}
-            disabled={loading}
-          >
+          <Button htmlType="submit" type="primary" loading={loading}>
             {submitLabel}
           </Button>
         </Form.Item>
