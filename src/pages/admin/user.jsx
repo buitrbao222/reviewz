@@ -8,7 +8,7 @@ import useUserStore from 'store/userStore';
 import isAdmin from 'utils/isAdmin';
 import notifyError from 'utils/notifyError';
 
-export default function AdminUsersPage() {
+export default function AdminUserPage() {
   const user = useUserStore(store => store.user);
 
   const [dataSource, setDataSource] = useState([]);

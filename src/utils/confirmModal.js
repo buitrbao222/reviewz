@@ -1,7 +1,7 @@
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 
-export default function confirmDeleteModal(props) {
+export default function confirmModal(props) {
   const { onOk, title } = props;
 
   Modal.confirm({

@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Radio, Table } from 'antd';
 import { useMemo } from 'react';
-import confirmDeleteModal from 'utils/confirmDeleteModal';
+import confirmModal from 'utils/confirmModal';
 
 export default function TableLayout(props) {
   const {
@@ -53,7 +53,7 @@ export default function TableLayout(props) {
   }
 
   function handleDeleteClick() {
-    confirmDeleteModal({
+    confirmModal({
       title: 'Bạn có chắc là muốn xóa?',
       onOk: onDelete,
     });
@@ -92,7 +92,7 @@ export default function TableLayout(props) {
           </Button>
         )}
 
-        {customButtons?.(selectedRow)}
+        {customButtons}
       </div>
 
       <Table

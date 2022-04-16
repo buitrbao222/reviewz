@@ -48,32 +48,32 @@ export default function AdminSider(props) {
           <Link to="/admin/dashboard">Thống kê</Link>
         </Menu.Item> */}
 
-        <Menu.Item key="users" icon={<FaUserAlt />}>
-          <Link to="/admin/users">Người dùng</Link>
+        <Menu.Item key="user" icon={<FaUserAlt />}>
+          <Link to="/admin/user">Người dùng</Link>
         </Menu.Item>
 
-        <Menu.Item key="genres" icon={<FaTag />}>
-          <Link to="/admin/genres">Thể loại</Link>
+        <Menu.Item key="genre" icon={<FaTag />}>
+          <Link to="/admin/genre">Thể loại</Link>
         </Menu.Item>
 
         <Menu.Item key="movie" icon={<FaFilm />}>
           <Link to="/admin/movie/list">Phim</Link>
         </Menu.Item>
 
-        <Menu.Item key="reviews" icon={<FaComments />}>
-          <Link to="/admin/reviews">Đánh giá</Link>
+        <Menu.Item key="review" icon={<FaComments />}>
+          <Link to="/admin/review">Đánh giá</Link>
         </Menu.Item>
 
-        <Menu.Item key="directors" icon={<FaUserTie />}>
-          <Link to="/admin/directors">Đạo diễn</Link>
+        <Menu.Item key="director" icon={<FaUserTie />}>
+          <Link to="/admin/director">Đạo diễn</Link>
         </Menu.Item>
 
-        <Menu.Item key="actors" icon={<FaTheaterMasks />}>
-          <Link to="/admin/actors">Diễn viên</Link>
+        <Menu.Item key="actor" icon={<FaTheaterMasks />}>
+          <Link to="/admin/actor">Diễn viên</Link>
         </Menu.Item>
 
-        <Menu.Item key="requests" icon={<FaCommentMedical />}>
-          <Link to="/admin/requests">Yêu cầu</Link>
+        <Menu.Item key="request" icon={<FaCommentMedical />}>
+          <Link to="/admin/request">Yêu cầu</Link>
         </Menu.Item>
       </Menu>
     </Sider>

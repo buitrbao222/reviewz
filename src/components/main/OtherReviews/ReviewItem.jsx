@@ -1,11 +1,12 @@
 import { Rate } from 'antd';
+import clsx from 'clsx';
 import Avatar from 'components/common/Avatar';
 import moment from 'moment';
 import { useMemo } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 
 export default function ReviewItem(props) {
-  const { review } = props;
+  const { review, className } = props;
 
   const { content, createdAt, star, user } = review || {};
 
@@ -17,8 +18,13 @@ export default function ReviewItem(props) {
   );
 
   return (
-    <div className="flex items-start gap-4 p-4 bg-white rounded-sm shadow-md w-fit">
-      <Avatar imgId={img} />
+    <div
+      className={clsx(
+        'flex items-start gap-4 p-4 bg-white rounded-sm shadow-md w-fit',
+        className
+      )}
+    >
+      <Avatar imgId={img} className="shrink-0" />
 
       <div>
         <div className="text-base font-medium">{username}</div>

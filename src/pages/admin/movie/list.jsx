@@ -96,17 +96,15 @@ export default function AdminMovieListPage() {
         selectedRow={selectedRow}
         setSelectedRow={setSelectedRow}
         rowKey="id"
-        customButtons={selectedRow => (
-          <>
-            <Button
-              icon={<EyeOutlined />}
-              disabled={!selectedRow}
-              onClick={handleViewDetails}
-            >
-              Xem chi tiết
-            </Button>
-          </>
-        )}
+        customButtons={
+          <Button
+            icon={<EyeOutlined />}
+            disabled={!selectedRow}
+            onClick={handleViewDetails}
+          >
+            Xem chi tiết
+          </Button>
+        }
       />
     </div>
   );

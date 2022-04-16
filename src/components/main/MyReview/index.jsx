@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import useUserStore from 'store/userStore';
-import confirmDeleteModal from 'utils/confirmDeleteModal';
+import confirmModal from 'utils/confirmModal';
 import notifyError from 'utils/notifyError';
 
 const { useForm } = Form;
@@ -95,7 +95,7 @@ export default function MyReview(props) {
   }
 
   function confirmDeleteReview() {
-    confirmDeleteModal({
+    confirmModal({
       title: 'Bạn có chắc là muốn xóa bài đánh giá này?',
       onOk: deleteReview,
     });
