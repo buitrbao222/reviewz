@@ -47,9 +47,6 @@ export default function ReviewDetailsModal(props) {
       title="Chi tiết đánh giá"
       onCancel={handleCancel}
       footer={[
-        <Button key="cancel" onClick={handleCancel}>
-          OK
-        </Button>,
         !selectedRow?.verified && (
           <Button type="primary" key="approve" onClick={handleApprove}>
             Duyệt
@@ -57,6 +54,9 @@ export default function ReviewDetailsModal(props) {
         ),
         <Button type="primary" danger key="delete" onClick={handleDelete}>
           Xóa
+        </Button>,
+        <Button key="cancel" onClick={handleCancel}>
+          OK
         </Button>,
       ]}
     >
