@@ -1,8 +1,8 @@
 import { Button, Form, Input, Modal } from 'antd';
 import axios from 'axios';
+import { usernameFormRules } from 'components/main/MainLayout/RegisterForm';
 import { useState } from 'react';
 import useUserStore from 'store/userStore';
-import { usernameFormRules } from 'components/main/MainLayout/RegisterForm';
 import notifyError from 'utils/notifyError';
 
 const { useForm } = Form;
@@ -56,6 +56,27 @@ export default function ChangeUsername(props) {
     }
   }
 
+  function usernameValidator(form) {
+    return {
+      validator: (_, value) =>
+        value !== user.name
+          ? Promise.resolve()
+          : Promise.reject('Tên đăng nhập mới phải khác tên đăng nhập cũ'),
+    };
+  }
+
+  function confirmUsernameValidator(form) {
+    return {
+      validator: (_, value) => {
+        if (form.getFieldValue('username') === value) {
+          return Promise.resolve();
+        }
+
+        return Promise.reject('Xác nhận tên đăng nhập không đúng');
+      },
+    };
+  }
+
   return (
     <>
       <Button onClick={toggleModal}>Đổi tên đăng nhập</Button>
@@ -81,14 +102,7 @@ export default function ChangeUsername(props) {
                 required: true,
                 message: 'Hãy điền tên đăng nhập mới',
               },
-              {
-                validator: (_, value) =>
-                  value !== user.name
-                    ? Promise.resolve()
-                    : Promise.reject(
-                        'Tên đăng nhập mới phải khác tên đăng nhập cũ'
-                      ),
-              },
+              usernameValidator,
               ...usernameFormRules,
             ]}
           >
@@ -105,15 +119,7 @@ export default function ChangeUsername(props) {
                 required: true,
                 message: 'Hãy xác nhận tên đăng nhập mới',
               },
-              {
-                validator: (_, value) => {
-                  if (form.getFieldValue('username') === value) {
-                    return Promise.resolve();
-                  }
-
-                  return Promise.reject('Xác nhận tên đăng nhập không đúng');
-                },
-              },
+              confirmUsernameValidator,
             ]}
           >
             <Input />

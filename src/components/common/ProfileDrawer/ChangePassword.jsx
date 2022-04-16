@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal } from 'antd';
 import axios from 'axios';
 import { passwordFormRules } from 'components/main/MainLayout/RegisterForm';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useUserStore from 'store/userStore';
 import notifyError from 'utils/notifyError';
 
@@ -62,6 +62,24 @@ export default function ChangePassword() {
     }
   }
 
+  function newPasswordValidator(form) {
+    return {
+      validator: (_, value) =>
+        form.getFieldValue('oldPassword') !== value
+          ? Promise.resolve()
+          : Promise.reject('Mật khẩu mới phải khác mật khẩu cũ'),
+    };
+  }
+
+  function confirmNewPasswordValidator(form) {
+    return {
+      validator: (_, value) =>
+        form.getFieldValue('newPassword') === value
+          ? Promise.resolve()
+          : Promise.reject('Xác nhận mật khẩu mới không đúng'),
+    };
+  }
+
   return (
     <>
       <Button onClick={toggleModal}>Đổi mật khẩu</Button>
@@ -101,12 +119,7 @@ export default function ChangePassword() {
                 required: true,
                 message: 'Hãy điền mật khẩu mới',
               },
-              {
-                validator: (_, value) =>
-                  form.getFieldValue('oldPassword') !== value
-                    ? Promise.resolve()
-                    : Promise.reject('Mật khẩu mới phải khác mật khẩu cũ'),
-              },
+              newPasswordValidator,
               ...passwordFormRules,
             ]}
           >
@@ -123,12 +136,7 @@ export default function ChangePassword() {
                 required: true,
                 message: 'Hãy xác nhận mật khẩu mới',
               },
-              {
-                validator: (_, value) =>
-                  form.getFieldValue('newPassword') === value
-                    ? Promise.resolve()
-                    : Promise.reject('Xác nhận mật khẩu mới không đúng'),
-              },
+              confirmNewPasswordValidator,
             ]}
           >
             <Input.Password />

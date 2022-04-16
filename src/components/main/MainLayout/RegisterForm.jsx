@@ -75,6 +75,18 @@ export default function RegisterForm(props) {
     setModalTab('login');
   }
 
+  function confirmPasswordValidator(form) {
+    return {
+      validator(_, value) {
+        if (form.getFieldValue('password') === value) {
+          return Promise.resolve();
+        }
+
+        return Promise.reject('Xác nhận mật khẩu không đúng');
+      },
+    };
+  }
+
   return (
     <Form
       layout="vertical"
@@ -121,15 +133,7 @@ export default function RegisterForm(props) {
             required: true,
             message: 'Hãy điền lại mật khẩu',
           },
-          {
-            validator(_, value) {
-              if (form.getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-
-              return Promise.reject('Xác nhận mật khẩu không đúng');
-            },
-          },
+          confirmPasswordValidator,
         ]}
       >
         <Input.Password />

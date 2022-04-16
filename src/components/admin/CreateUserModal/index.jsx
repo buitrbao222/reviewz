@@ -53,6 +53,18 @@ export default function CreateUserModal(props) {
     setVisible(false);
   }
 
+  function confirmPasswordValidator(form) {
+    return {
+      validator(_, value) {
+        if (form.getFieldValue('password') === value) {
+          return Promise.resolve();
+        }
+
+        return Promise.reject('Xác nhận mật khẩu không đúng');
+      },
+    };
+  }
+
   return (
     <Modal
       visible={visible}
@@ -93,15 +105,7 @@ export default function CreateUserModal(props) {
               required: true,
               message: 'Hãy điền lại mật khẩu',
             },
-            {
-              validator(_, value) {
-                if (form.getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-
-                return Promise.reject('Xác nhận mật khẩu không đúng');
-              },
-            },
+            confirmPasswordValidator,
           ]}
         >
           <Input.Password />
