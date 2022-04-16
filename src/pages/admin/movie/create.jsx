@@ -69,7 +69,6 @@ export default function AdminMovieCreatePage() {
       onFinish={handleFinish}
       loading={loading}
       submitLabel="Thêm phim"
-      title="Thêm phim"
     />
   );
 }

@@ -21,6 +21,7 @@ export default function TableLayout(props) {
     setSelectedRow,
     rowKey,
     selectable = true,
+    customButtons,
   } = props;
 
   const selectedRowKeys = useMemo(
@@ -90,6 +91,8 @@ export default function TableLayout(props) {
             Sửa
           </Button>
         )}
+
+        {customButtons?.(selectedRow)}
       </div>
 
       <Table

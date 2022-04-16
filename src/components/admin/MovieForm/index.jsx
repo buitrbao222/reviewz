@@ -153,8 +153,6 @@ export default function MovieForm(props) {
         Trở về danh sách
       </Button>
 
-      <h1 className="text-2xl">{title}</h1>
-
       <Spin wrapperClassName="p-4 bg-white" spinning={loadingFormData}>
         <Form
           form={form}

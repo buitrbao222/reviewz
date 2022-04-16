@@ -1,3 +1,5 @@
+import { EyeOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import axios from 'axios';
 import TableLayout from 'components/admin/TableLayout';
 import moment from 'moment';
@@ -77,6 +79,10 @@ export default function AdminMovieListPage() {
     navigate(`/admin/movie/edit/${selectedRow.id}`);
   }
 
+  function handleViewDetails() {
+    window.open(`${window.location.origin}/movie/${selectedRow.id}`);
+  }
+
   return (
     <div>
       <TableLayout
@@ -90,6 +96,17 @@ export default function AdminMovieListPage() {
         selectedRow={selectedRow}
         setSelectedRow={setSelectedRow}
         rowKey="id"
+        customButtons={selectedRow => (
+          <>
+            <Button
+              icon={<EyeOutlined />}
+              disabled={!selectedRow}
+              onClick={handleViewDetails}
+            >
+              Xem chi tiết
+            </Button>
+          </>
+        )}
       />
     </div>
   );

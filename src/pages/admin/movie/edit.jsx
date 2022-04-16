@@ -108,7 +108,6 @@ export default function AdminMovieEditPage() {
       onFinish={handleFinish}
       submitLabel="Lưu thay đổi"
       loadingFormData={loadingMovie}
-      title="Sửa phim"
     />
   );
 }
