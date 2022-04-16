@@ -2,27 +2,28 @@ import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 import { DatePicker } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import notifyError from 'utils/notifyError';
 
 const { RangePicker } = DatePicker;
+
+const dateRangePresets = {
+  'Tháng hiện tại': [moment().startOf('month'), moment().endOf('month')],
+  'Năm hiện tại': [moment().startOf('year'), moment().endOf('year')],
+  '6 tháng vừa qua': [moment().subtract(6, 'months'), moment()],
+  '1 năm vừa qua': [moment().subtract(1, 'year'), moment()],
+};
 
 export default function ReviewStatistics() {
   const [loading, setLoading] = useState(true);
 
   const [reviews, setReviews] = useState();
 
-  const defaultRange = useMemo(() => {
-    const monthStart = moment().startOf('month');
-
-    const monthEnd = moment(monthStart).endOf('month');
-
-    return [monthStart, monthEnd];
-  }, []);
-
   useEffect(() => {
     loadReviews();
   }, []);
+
+  useEffect(() => {}, [reviews]);
 
   async function loadReviews() {
     setLoading(true);
@@ -42,7 +43,7 @@ export default function ReviewStatistics() {
       <div className="ant-modal-header">
         <div className="ant-modal-title">
           <div className="flex items-center text-lg">
-            Thống kê đánh giá
+            Đánh giá
             <div className="ml-3">
               {loading ? (
                 <LoadingOutlined />
@@ -66,9 +67,10 @@ export default function ReviewStatistics() {
         <div>
           <div className="font-medium">Lượt đánh giá theo thời gian:</div>
           <RangePicker
-            defaultValue={defaultRange}
+            defaultValue={dateRangePresets['Tháng hiện tại']}
             format="DD/MM/YYYY"
             className="mt-2"
+            ranges={dateRangePresets}
           />
         </div>
       </div>
