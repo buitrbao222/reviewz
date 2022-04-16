@@ -2,7 +2,7 @@ import { Button, Divider, Form, Input, Select, Spin } from 'antd';
 import axios from 'axios';
 import MovieCard from 'components/main/MovieCard';
 import { useEffect, useState } from 'react';
-import { useSearchParams, createSearchParams } from 'react-router-dom';
+import { createSearchParams, useSearchParams } from 'react-router-dom';
 import notifyError from 'utils/notifyError';
 import removeFalsyValues from 'utils/removeFalsyValues';
 
@@ -51,6 +51,11 @@ export default function SearchPage() {
   // Filter movies when url search params change
   useEffect(() => {
     getMovies();
+    form.setFieldsValue({
+      keyword,
+      year,
+      sort,
+    });
   }, [keyword, genre, actor, director, year, sort]);
 
   async function getGenres() {
@@ -141,8 +146,10 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="py-[50px] text-dark flex flex-col flex-1">
-      <h1 className="text-4xl">Tìm kiếm</h1>
+    <div className="flex flex-col flex-1 py-6 text-dark">
+      <h1 className="m-0 text-4xl">Tìm kiếm</h1>
+
+      <Divider />
 
       <div>
         <Form
