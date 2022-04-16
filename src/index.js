@@ -1,7 +1,8 @@
+import '@ant-design/flowchart/dist/index.css';
 import 'configs/axios';
+import 'css/index.css';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import 'css/index.css';
 import App from './App';
 
 const publicUrl =

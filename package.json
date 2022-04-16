@@ -4,6 +4,7 @@
   "homepage": "https://buitrbao222.github.io/reviewz/",
   "private": true,
   "dependencies": {
+    "@ant-design/charts": "^1.3.6",
     "@ant-design/icons": "^4.7.0",
     "@tailwindcss/line-clamp": "^0.3.1",
     "antd": "^4.19.2",
@@ -11,6 +12,7 @@
     "axios": "^0.26.1",
     "clsx": "^1.1.1",
     "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "postcss": "^8.4.12",
     "react": "^17.0.2",
