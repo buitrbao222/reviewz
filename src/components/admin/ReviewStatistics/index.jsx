@@ -1,10 +1,61 @@
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Alert, DatePicker } from 'antd';
 import axios from 'axios';
+import 'chart.js/auto';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
 import notifyError from 'utils/notifyError';
-import { Line } from '@ant-design/plots';
+
+const initialLineChartOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      displayColors: false,
+      callbacks: {
+        label: function (context) {
+          const count = context.raw.y;
+          return `${count} lượt đánh giá`;
+        },
+      },
+    },
+  },
+  scales: {
+    y: {
+      ticks: {
+        precision: 0,
+      },
+      beginAtZero: true,
+    },
+    x: {
+      type: 'time',
+      time: {
+        displayFormats: {
+          day: 'DD/MM/YY',
+          week: 'DD/MM/YY',
+          month: 'MM/YY',
+          year: 'YYYY',
+        },
+        parser: 'DD/MM/YYYY',
+        tooltipFormat: 'DD/MM/YYYY',
+      },
+    },
+  },
+  interaction: {
+    intersect: false,
+    mode: 'nearest',
+    axis: 'x',
+  },
+};
+
+const datasetOptions = {
+  borderColor: '#1890ff',
+  pointBackgroundColor: '#1890ff',
+  tension: 0.3,
+};
 
 export default function ReviewStatistics() {
   const [loading, setLoading] = useState(true);
@@ -17,7 +68,7 @@ export default function ReviewStatistics() {
 
   const [dateRangeError, setDateRangeError] = useState();
 
-  const [lineChartData, setLineChartData] = useState();
+  const [lineChartData, setLineChartData] = useState([]);
 
   useEffect(() => {
     loadReviews();
@@ -60,37 +111,27 @@ export default function ReviewStatistics() {
   }
 
   function calculateLineChartData() {
-    // Filter reviews in date range
-    const filtered = reviews
-      .filter(x => moment(x.createdAt).isBetween(fromDate, toDate))
-      .map(x => x.createdAt)
-      .sort((a, z) => a - z);
-
     const daysDiff = toDate.diff(fromDate, 'days') + 1;
 
-    // Default step size is 1 day
-    let stepSize = 1;
-    if (daysDiff > 365) {
-      stepSize = 365;
-    } else if (daysDiff > 30) {
-      stepSize = 30;
-    } else if (daysDiff > 7) {
-      stepSize = 7;
+    let data = {};
+    for (let i = 0; i < daysDiff; i++) {
+      const day = moment(fromDate).add(i, 'days').format('DD/MM/YYYY');
+      data[day] = 0;
     }
 
-    // Number of steps in date range
-    const steps = Math.ceil(daysDiff / stepSize);
+    reviews.forEach(review => {
+      if (!moment(review).isBetween(fromDate, toDate)) {
+        return;
+      }
 
-    let lineChartData = {};
+      const day = moment(review).format('DD/MM/YYYY');
 
-    for (let i = 0; i < steps; i++) {
-      const label = moment(fromDate)
-        .add(i * stepSize, 'days')
-        .format('DD/MM/YYYY');
-      lineChartData[label] = 0;
-    }
+      data[day]++;
+    });
 
-    console.log(lineChartData);
+    data = Object.entries(data).map(([date, count]) => ({ x: date, y: count }));
+
+    setLineChartData(data);
   }
 
   return (
@@ -151,7 +192,17 @@ export default function ReviewStatistics() {
             />
           )}
 
-          {/* <Line data={lineChartData} padding="auto" xField="" /> */}
+          <Line
+            options={initialLineChartOptions}
+            data={{
+              datasets: [
+                {
+                  data: lineChartData,
+                  ...datasetOptions,
+                },
+              ],
+            }}
+          />
         </div>
       </div>
     </div>

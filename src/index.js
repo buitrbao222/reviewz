@@ -1,4 +1,3 @@
-import '@ant-design/flowchart/dist/index.css';
 import 'configs/axios';
 import 'css/index.css';
 import ReactDOM from 'react-dom';
