@@ -38,7 +38,8 @@ axios.interceptors.response.use(
     console.log(`${method.toUpperCase()} RESPONSE ERROR ${url}`, data);
 
     if (data.message === 'Token invalid') {
-      useUserStore.getState().logout();
+      localStorage.removeItem(STORAGE_KEYS.TOKEN);
+      window.location.href = '/';
     }
 
     return Promise.reject(data);

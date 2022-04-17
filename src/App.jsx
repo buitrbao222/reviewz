@@ -74,7 +74,7 @@ function App() {
 
         <Route path="review" element={<AdminReviewPage />} />
 
-        <Route index element={<Navigate to="/admin/user" replace />} />
+        <Route index element={<Navigate to="/admin/dashboard" replace />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
