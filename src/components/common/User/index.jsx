@@ -7,9 +7,10 @@ import {
 import { Dropdown, Menu } from 'antd';
 import Avatar from 'components/common/Avatar';
 import ProfileDrawer from 'components/common/ProfileDrawer';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'store/userStore';
+import isAdmin from 'utils/isAdmin';
 
 export default function User() {
   const navigate = useNavigate();
@@ -22,7 +23,9 @@ export default function User() {
 
   const [profileDrawerVisible, setProfileDrawerVisible] = useState(false);
 
-  const inAdmin = location.pathname.startsWith('/admin');
+  const inAdminLayout = location.pathname.startsWith('/admin');
+
+  const userIsAdmin = useMemo(() => isAdmin(user), [user]);
 
   function handleMenuClick(e) {
     switch (e.key) {
@@ -60,17 +63,18 @@ export default function User() {
               Thông tin cá nhân
             </Menu.Item>
 
-            {inAdmin ? (
-              <Menu.Item key="home">
-                <HomeOutlined />
-                Về trang chủ
-              </Menu.Item>
-            ) : (
-              <Menu.Item key="admin">
-                <SettingOutlined />
-                Quản lý
-              </Menu.Item>
-            )}
+            {userIsAdmin &&
+              (inAdminLayout ? (
+                <Menu.Item key="home">
+                  <HomeOutlined />
+                  Về trang chủ
+                </Menu.Item>
+              ) : (
+                <Menu.Item key="admin">
+                  <SettingOutlined />
+                  Quản lý
+                </Menu.Item>
+              ))}
 
             <Menu.Item key="logout">
               <LogoutOutlined />
@@ -79,7 +83,7 @@ export default function User() {
           </Menu>
         }
       >
-        <Avatar imgId={user?.img} className={inAdmin && 'in-admin'} />
+        <Avatar imgId={user?.img} className={inAdminLayout && 'in-admin'} />
       </Dropdown>
 
       <ProfileDrawer
