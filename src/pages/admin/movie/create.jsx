@@ -53,7 +53,7 @@ export default function AdminMovieCreatePage() {
       Modal.success({
         title: 'Thêm phim thành công',
         onOk: function () {
-          navigate('/admin/movie/list');
+          navigate('/admin/movie');
         },
       });
     } catch (error) {

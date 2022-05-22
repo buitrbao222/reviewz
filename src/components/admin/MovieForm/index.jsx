@@ -128,7 +128,7 @@ export default function MovieForm(props) {
   }
 
   function handleBack() {
-    navigate('/admin/movie/list');
+    navigate('/admin/movie');
   }
 
   function posterFileValidator(form) {

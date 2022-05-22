@@ -9,6 +9,7 @@ import {
   FaUserAlt,
   FaUserTie,
   FaChartLine,
+  FaHashtag,
 } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -58,7 +59,11 @@ export default function AdminSider(props) {
         </Menu.Item>
 
         <Menu.Item key="movie" icon={<FaFilm />}>
-          <Link to="/admin/movie/list">Phim</Link>
+          <Link to="/admin/movie">Phim</Link>
+        </Menu.Item>
+
+        <Menu.Item key="hashtag" icon={<FaHashtag />}>
+          <Link to="/admin/hashtag">Hashtag</Link>
         </Menu.Item>
 
         <Menu.Item key="review" icon={<FaComments />}>

@@ -7,9 +7,10 @@ import AdminActorPage from 'pages/admin/actor';
 import AdminDashboardPage from 'pages/admin/dashboard';
 import AdminDirectorPage from 'pages/admin/director';
 import AdminGenrePage from 'pages/admin/genre';
+import AdminHashtagPage from 'pages/admin/hashtag';
 import AdminMovieCreatePage from 'pages/admin/movie/create';
 import AdminMovieEditPage from 'pages/admin/movie/edit';
-import AdminMovieListPage from 'pages/admin/movie/list';
+import AdminMovieListPage from 'pages/admin/movie';
 import AdminRequestPage from 'pages/admin/request';
 import AdminReviewPage from 'pages/admin/review';
 import AdminUserPage from 'pages/admin/user';
@@ -67,10 +68,12 @@ function App() {
         <Route path="request" element={<AdminRequestPage />} />
 
         <Route path="movie">
-          <Route path="list" element={<AdminMovieListPage />} />
+          <Route index element={<AdminMovieListPage />} />
           <Route path="create" element={<AdminMovieCreatePage />} />
           <Route path="edit/:id" element={<AdminMovieEditPage />} />
         </Route>
+
+        <Route path="hashtag" element={<AdminHashtagPage />} />
 
         <Route path="review" element={<AdminReviewPage />} />
 
