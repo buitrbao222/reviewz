@@ -1,8 +1,8 @@
 import { Button, Form, Input, message, Rate, Select } from 'antd';
 import axios from 'axios';
+import useHashtags from 'hooks/useHashtags';
 import { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
-import useUserStore from 'store/userStore';
 import confirmModal from 'utils/confirmModal';
 import notifyError from 'utils/notifyError';
 
@@ -11,11 +11,19 @@ const { Option } = Select;
 const { useForm } = Form;
 
 export default function MyReview(props) {
-  const { myReview, setMyReview, movieId, hashtags } = props;
-
-  const user = useUserStore(store => store.user);
+  const { myReview, setMyReview, movieId } = props;
 
   const [form] = useForm();
+
+  const { data: hashtags, loading: loadingHashtags } = useHashtags({
+    onLoadSuccess: () => {
+      if (myReview) {
+        form.setFieldsValue({
+          hashtags: myReview.tags,
+        });
+      }
+    },
+  });
 
   const [loading, setLoading] = useState(false);
 
@@ -46,9 +54,14 @@ export default function MyReview(props) {
 
       message.success('Bài đánh giá của bạn đang chờ duyệt');
 
+      setMyReview(response);
+
       setFormMode('read');
 
-      setMyReview(response);
+      form.setFieldsValue({
+        rating: response.star,
+        content: response.content,
+      });
     } catch (error) {
       notifyError(error);
     } finally {
@@ -91,9 +104,9 @@ export default function MyReview(props) {
 
       setMyReview(undefined);
 
-      form.resetFields();
-
       setFormMode('post');
+
+      form.resetFields();
 
       return Promise.resolve(response);
     } catch (error) {
@@ -115,134 +128,127 @@ export default function MyReview(props) {
 
   function handleEditCancelClick() {
     setFormMode('read');
+
     form.setFieldsValue({
       rating: myReview.star,
       content: myReview.content,
     });
   }
 
-  if (!user) {
-    return <div>Hãy đăng nhập để đánh giá</div>;
-  }
-
   return (
-    <div>
-      <h2>
-        Đánh giá của bạn{' '}
-        {myReview && (myReview.verified ? '(Đã duyệt)' : '(Chờ duyệt)')}
-      </h2>
-
-      <div className="flex flex-col">
-        <Form
-          form={form}
-          onFinish={onFinish}
-          initialValues={{
-            rating: myReview?.star,
-            content: myReview?.content,
-            hashtags: myReview?.tags,
-          }}
+    <div className="flex flex-col">
+      <Form
+        form={form}
+        onFinish={onFinish}
+        initialValues={{
+          rating: myReview?.star,
+          content: myReview?.content,
+        }}
+      >
+        <Form.Item
+          name="rating"
+          rules={[
+            {
+              required: true,
+              message: 'Hãy chấm điểm',
+            },
+          ]}
         >
-          <Form.Item
-            name="rating"
-            rules={[
-              {
-                required: true,
-                message: 'Hãy chấm điểm',
-              },
-            ]}
+          <Rate
+            count={10}
+            character={({ index, value }) =>
+              index < value ? <FaStar /> : <FaRegStar />
+            }
+            disabled={loading || formMode === 'read'}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="content"
+          rules={[
+            {
+              required: true,
+              message: 'Hãy nhập nội dung đánh giá',
+            },
+          ]}
+          className="mt-2"
+        >
+          <Input.TextArea
+            placeholder="Nội dung đánh giá..."
+            disabled={loading || formMode === 'read'}
+            className="read-only"
+            autoSize
+          />
+        </Form.Item>
+
+        <Form.Item name="hashtags" className="mt-2">
+          <Select
+            mode="multiple"
+            showSearch
+            allowClear
+            placeholder={
+              loadingHashtags
+                ? 'Đang tải hashtag...'
+                : 'Thêm hashtag cho đánh giá...'
+            }
+            disabled={loadingHashtags || formMode === 'read'}
+            className="read-only"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().includes(input.toLowerCase())
+            }
           >
-            <Rate
-              count={10}
-              character={({ index, value }) =>
-                index < value ? <FaStar /> : <FaRegStar />
-              }
-              disabled={loading || formMode === 'read'}
-            />
-          </Form.Item>
+            {hashtags.map(x => (
+              <Option key={x.id} value={x.id}>
+                {x.name}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
 
-          <Form.Item
-            name="content"
-            rules={[
-              {
-                required: true,
-                message: 'Hãy nhập nội dung đánh giá',
-              },
-            ]}
-            className="mt-2"
-          >
-            <Input.TextArea
-              placeholder="Nội dung đánh giá..."
-              disabled={loading || formMode === 'read'}
-              className="read-only"
-              autoSize
-            />
-          </Form.Item>
+        <Form.Item>
+          {formMode === 'post' && (
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Đăng
+            </Button>
+          )}
 
-          <Form.Item name="hashtags" className="mt-2">
-            <Select
-              mode="multiple"
-              showSearch
-              allowClear
-              placeholder={'Thêm hashtag cho đánh giá...'}
-              disabled={formMode === 'read'}
-              className="read-only"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().includes(input.toLowerCase())
-              }
-            >
-              {hashtags.map(x => (
-                <Option key={x.id} value={x.id}>
-                  {x.name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item>
-            {formMode === 'post' && (
-              <Button type="primary" htmlType="submit" loading={loading}>
-                Đăng
+          {formMode === 'read' && (
+            <>
+              <Button type="primary" onClick={handleEditClick}>
+                Sửa
               </Button>
-            )}
 
-            {formMode === 'read' && (
-              <>
-                <Button type="primary" onClick={handleEditClick}>
-                  Sửa
-                </Button>
+              <Button
+                type="primary"
+                danger
+                onClick={confirmDeleteReview}
+                className="ml-4"
+              >
+                Xóa
+              </Button>
+            </>
+          )}
 
-                <Button
-                  type="primary"
-                  danger
-                  onClick={confirmDeleteReview}
-                  className="ml-4"
-                >
-                  Xóa
-                </Button>
-              </>
-            )}
+          {formMode === 'edit' && (
+            <>
+              <Button type="primary" htmlType="submit" loading={loading}>
+                Lưu
+              </Button>
 
-            {formMode === 'edit' && (
-              <>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Lưu
-                </Button>
-
-                <Button
-                  type="primary"
-                  danger
-                  onClick={handleEditCancelClick}
-                  disabled={loading}
-                  className="ml-4"
-                >
-                  Hủy
-                </Button>
-              </>
-            )}
-          </Form.Item>
-        </Form>
-      </div>
+              <Button
+                type="primary"
+                danger
+                onClick={handleEditCancelClick}
+                disabled={loading}
+                className="ml-4"
+              >
+                Hủy
+              </Button>
+            </>
+          )}
+        </Form.Item>
+      </Form>
     </div>
   );
 }

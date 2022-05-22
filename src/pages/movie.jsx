@@ -3,8 +3,7 @@ import axios from 'axios';
 import MovieDetails from 'components/main/MovieDetails';
 import MyReview from 'components/main/MyReview';
 import OtherReviews from 'components/main/OtherReviews';
-import useHashtags from 'hooks/useHashtags';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useUserStore from 'store/userStore';
 import notifyError from 'utils/notifyError';
@@ -14,9 +13,9 @@ export default function MovieDetailsPage() {
 
   const user = useUserStore(store => store.user);
 
-  const { data: hashtags, loading: loadingHashtags } = useHashtags();
+  const [loadingDetails, setLoadingDetails] = useState(true);
 
-  const [loading, setLoading] = useState(2);
+  const [loadingReviews, setLoadingReviews] = useState(!!user);
 
   const [details, setDetails] = useState();
 
@@ -26,8 +25,11 @@ export default function MovieDetailsPage() {
 
   useEffect(() => {
     loadDetails();
-    loadOtherReviews();
   }, []);
+
+  useEffect(() => {
+    loadReviews();
+  }, [user]);
 
   async function loadDetails() {
     try {
@@ -37,11 +39,13 @@ export default function MovieDetailsPage() {
     } catch (error) {
       notifyError(error);
     } finally {
-      setLoading(x => x - 1);
+      setLoadingDetails(false);
     }
   }
 
-  async function loadOtherReviews() {
+  async function loadReviews() {
+    setLoadingReviews(true);
+
     try {
       const reviews = await axios.get(`review/movie/${id}`);
 
@@ -64,11 +68,11 @@ export default function MovieDetailsPage() {
     } catch (error) {
       notifyError(error);
     } finally {
-      setLoading(x => x - 1);
+      setLoadingReviews(false);
     }
   }
 
-  if (loading || loadingHashtags) {
+  if (loadingDetails) {
     return (
       <div className="flex items-center justify-center flex-1">
         <Spin size="large" className="scale-[3]" />
@@ -82,16 +86,34 @@ export default function MovieDetailsPage() {
 
       <Divider />
 
-      <MyReview
-        myReview={myReview}
-        setMyReview={setMyReview}
-        movieId={details.id}
-        hashtags={hashtags}
-      />
+      {loadingReviews ? (
+        <div className="text-left">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <Fragment>
+          <div>
+            <h2>
+              Đánh giá của bạn{' '}
+              {myReview && (myReview.verified ? '(Đã duyệt)' : '(Chờ duyệt)')}
+            </h2>
 
-      <Divider />
+            {user ? (
+              <MyReview
+                myReview={myReview}
+                setMyReview={setMyReview}
+                movieId={details.id}
+              />
+            ) : (
+              <div>Hãy đăng nhập để đánh giá</div>
+            )}
+          </div>
 
-      <OtherReviews reviews={otherReviews} hashtags={hashtags} />
+          <Divider />
+
+          <OtherReviews reviews={otherReviews} />
+        </Fragment>
+      )}
     </div>
   );
 }

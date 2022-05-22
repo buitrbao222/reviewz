@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { STORAGE_KEYS } from 'configs/constants';
+import useUserStore from 'store/userStore';
+import notifyError from 'utils/notifyError';
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND;
 
@@ -41,7 +43,9 @@ axios.interceptors.response.use(
       ['Token invalid', 'Incorrect: Token'].includes(data.message)
     ) {
       localStorage.removeItem(STORAGE_KEYS.TOKEN);
-      window.location.href = '/';
+      useUserStore.setState({
+        user: undefined,
+      });
     }
 
     return Promise.reject(data);

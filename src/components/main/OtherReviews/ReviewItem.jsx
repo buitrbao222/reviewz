@@ -8,7 +8,7 @@ import { FaRegStar, FaStar } from 'react-icons/fa';
 export default function ReviewItem(props) {
   const { review, className, hasShadow = true, hasPadding = true } = props;
 
-  const { content, createdAt, star, user } = review || {};
+  const { content, createdAt, star, user, tagsObj } = review || {};
 
   const { img, username } = user || {};
 
@@ -46,11 +46,13 @@ export default function ReviewItem(props) {
 
         <div className="mt-2 text-base whitespace-pre-wrap">{content}</div>
 
-        <div className="mt-4">
-          {review.tagsObj.map(hashtag => (
-            <Tag key={hashtag.id}>{hashtag.name}</Tag>
-          ))}
-        </div>
+        {tagsObj && (
+          <div className="mt-4">
+            {tagsObj.map(hashtag => (
+              <Tag key={hashtag.id}>{hashtag.name}</Tag>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
