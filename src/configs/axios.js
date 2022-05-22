@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { STORAGE_KEYS } from 'configs/constants';
-import useUserStore from 'store/userStore';
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND;
 
@@ -37,7 +36,10 @@ axios.interceptors.response.use(
 
     console.log(`${method.toUpperCase()} RESPONSE ERROR ${url}`, data);
 
-    if (data.message === 'Token invalid') {
+    if (
+      data.status === 500 &&
+      ['Token invalid', 'Incorrect: Token'].includes(data.message)
+    ) {
       localStorage.removeItem(STORAGE_KEYS.TOKEN);
       window.location.href = '/';
     }

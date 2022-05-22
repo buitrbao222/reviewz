@@ -22,8 +22,8 @@ const columns = [
   },
   {
     title: 'Ngày đánh giá',
-    dataIndex: 'date',
-    render: (date, row, index) => moment(date).format('DD/MM/YYYY'),
+    dataIndex: 'createdAt',
+    render: (createdAt, row, index) => moment(createdAt).format('DD/MM/YYYY'),
   },
   {
     title: 'Trạng thái',
@@ -50,7 +50,19 @@ export default function AdminReviewPage() {
 
     try {
       const response = await axios.get('review');
-      setDataSource(response);
+
+      // Sort by:
+      //   1. Not verified first
+      //   2. Newest createdAt first
+      const sorted = response.sort((a, b) => {
+        if (a.verified !== b.verified) {
+          return b.verified ? -1 : 1;
+        }
+
+        return b.createdAt - a.createdAt;
+      });
+
+      setDataSource(sorted);
     } catch (error) {
       notifyError(error);
     } finally {

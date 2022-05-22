@@ -3,6 +3,7 @@ import axios from 'axios';
 import MovieDetails from 'components/main/MovieDetails';
 import MyReview from 'components/main/MyReview';
 import OtherReviews from 'components/main/OtherReviews';
+import useHashtags from 'hooks/useHashtags';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useUserStore from 'store/userStore';
@@ -12,6 +13,8 @@ export default function MovieDetailsPage() {
   const { id } = useParams();
 
   const user = useUserStore(store => store.user);
+
+  const { data: hashtags, loading: loadingHashtags } = useHashtags();
 
   const [loading, setLoading] = useState(2);
 
@@ -65,7 +68,7 @@ export default function MovieDetailsPage() {
     }
   }
 
-  if (loading) {
+  if (loading || loadingHashtags) {
     return (
       <div className="flex items-center justify-center flex-1">
         <Spin size="large" className="scale-[3]" />
@@ -83,11 +86,12 @@ export default function MovieDetailsPage() {
         myReview={myReview}
         setMyReview={setMyReview}
         movieId={details.id}
+        hashtags={hashtags}
       />
 
       <Divider />
 
-      <OtherReviews reviews={otherReviews} />
+      <OtherReviews reviews={otherReviews} hashtags={hashtags} />
     </div>
   );
 }

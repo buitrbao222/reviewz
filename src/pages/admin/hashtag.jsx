@@ -2,7 +2,8 @@ import axios from 'axios';
 import CreateHashtagModal from 'components/admin/CreateHashtagModal';
 import EditHashtagModal from 'components/admin/EditHashtagModal';
 import TableLayout from 'components/admin/TableLayout';
-import { useEffect, useState } from 'react';
+import useHashtags from 'hooks/useHashtags';
+import { useState } from 'react';
 import notifyError from 'utils/notifyError';
 
 const columns = [
@@ -13,32 +14,13 @@ const columns = [
 ];
 
 export default function AdminHashtagPage() {
-  const [dataSource, setDataSource] = useState();
-
-  const [loading, setLoading] = useState(true);
+  const { data: dataSource, loading, loadData } = useHashtags();
 
   const [createModalVisible, setCreateModalVisible] = useState(false);
 
   const [editModalVisible, setEditModalVisible] = useState();
 
   const [selectedRow, setSelectedRow] = useState();
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  async function loadData() {
-    setLoading(true);
-
-    try {
-      const response = await axios.get('tag');
-      setDataSource(response);
-    } catch (error) {
-      notifyError(error);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   function handleCreate() {
     setCreateModalVisible(true);

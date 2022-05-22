@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Rate } from 'antd';
+import { Button, Form, Input, message, Rate, Select } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
@@ -6,10 +6,12 @@ import useUserStore from 'store/userStore';
 import confirmModal from 'utils/confirmModal';
 import notifyError from 'utils/notifyError';
 
+const { Option } = Select;
+
 const { useForm } = Form;
 
 export default function MyReview(props) {
-  const { myReview, setMyReview, movieId } = props;
+  const { myReview, setMyReview, movieId, hashtags } = props;
 
   const user = useUserStore(store => store.user);
 
@@ -39,9 +41,12 @@ export default function MyReview(props) {
         idMovie: movieId,
         star: values.rating,
         content: values.content,
+        tags: values.hashtags,
       });
 
       message.success('Bài đánh giá của bạn đang chờ duyệt');
+
+      setFormMode('read');
 
       setMyReview(response);
     } catch (error) {
@@ -58,6 +63,7 @@ export default function MyReview(props) {
       const response = await axios.put(`review/${myReview.id}`, {
         star: values.rating,
         content: values.content,
+        tags: values.hashtags,
       });
 
       message.success('Bài đánh giá của bạn đang chờ duyệt');
@@ -86,6 +92,8 @@ export default function MyReview(props) {
       setMyReview(undefined);
 
       form.resetFields();
+
+      setFormMode('post');
 
       return Promise.resolve(response);
     } catch (error) {
@@ -131,6 +139,7 @@ export default function MyReview(props) {
           initialValues={{
             rating: myReview?.star,
             content: myReview?.content,
+            hashtags: myReview?.tags,
           }}
         >
           <Form.Item
@@ -141,14 +150,13 @@ export default function MyReview(props) {
                 message: 'Hãy chấm điểm',
               },
             ]}
-            className="mb-2"
           >
             <Rate
               count={10}
               character={({ index, value }) =>
                 index < value ? <FaStar /> : <FaRegStar />
               }
-              disabled={formMode === 'read'}
+              disabled={loading || formMode === 'read'}
             />
           </Form.Item>
 
@@ -160,13 +168,35 @@ export default function MyReview(props) {
                 message: 'Hãy nhập nội dung đánh giá',
               },
             ]}
+            className="mt-2"
           >
             <Input.TextArea
               placeholder="Nội dung đánh giá..."
-              disabled={formMode === 'read'}
+              disabled={loading || formMode === 'read'}
               className="read-only"
               autoSize
             />
+          </Form.Item>
+
+          <Form.Item name="hashtags" className="mt-2">
+            <Select
+              mode="multiple"
+              showSearch
+              allowClear
+              placeholder={'Thêm hashtag cho đánh giá...'}
+              disabled={formMode === 'read'}
+              className="read-only"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              {hashtags.map(x => (
+                <Option key={x.id} value={x.id}>
+                  {x.name}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item>

@@ -1,7 +1,7 @@
 import ReviewItem from 'components/main/OtherReviews/ReviewItem';
 
 export default function OtherReviews(props) {
-  const { reviews } = props;
+  const { reviews, hashtags } = props;
 
   return (
     <div>
@@ -12,7 +12,7 @@ export default function OtherReviews(props) {
       ) : (
         <div className="flex flex-col gap-5">
           {reviews.map(review => (
-            <ReviewItem key={review.id} review={review} />
+            <ReviewItem key={review.id} review={review} hashtags={hashtags} />
           ))}
         </div>
       )}

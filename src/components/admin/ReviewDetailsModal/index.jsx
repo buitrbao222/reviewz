@@ -61,7 +61,7 @@ export default function ReviewDetailsModal(props) {
         </Button>,
       ]}
     >
-      <ReviewItem review={selectedRow} className="p-0 shadow-none" />
+      <ReviewItem review={selectedRow} hasPadding={false} hasShadow={false} />
     </Modal>
   );
 }
